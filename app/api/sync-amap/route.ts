@@ -8,14 +8,14 @@ import { AmapSync } from '@/lib/amap-sync'
 
 // 验证认证 header
 function validateAuth(request: NextRequest): boolean {
-  const authHeader = request.headers.get('Authorization')
+  const authHeader = request.headers.get('authorization') ?? request.headers.get('Authorization')
   if (!authHeader) return false
 
   // 支持两种格式：
   // 1. Bearer <SUPABASE_SERVICE_ROLE_KEY>
   // 2. X-Service-Role-Key header
-  const token = authHeader.replace('Bearer ', '')
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const token = authHeader.replace(/^Bearer\s+/i, '').trim()
+  const serviceRoleKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim()
 
   return token === serviceRoleKey
 }

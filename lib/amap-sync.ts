@@ -170,12 +170,34 @@ export class AmapSync {
         }
       }
 
+      const status = String(res.data.status || '')
       const info = String(res.data.info || '')
+      const infocode = String(res.data.infocode || '')
       const isRateLimited = info.includes('CUQPS_HAS_EXCEEDED_THE_LIMIT')
+
+      console.warn('[AmapSync] AMap response not successful', {
+        keywords,
+        city,
+        types,
+        page,
+        retryCount,
+        status,
+        infocode,
+        info,
+      })
 
       // 限流时自动重试（指数退避）
       if (isRateLimited && retryCount < this.maxRetries) {
         const delay = this.retryDelayMs * Math.pow(2, retryCount)
+        console.warn('[AmapSync] Rate limited, retrying', {
+          keywords,
+          city,
+          page,
+          retryCount,
+          nextRetry: retryCount + 1,
+          maxRetries: this.maxRetries,
+          delayMs: delay,
+        })
         await new Promise(r => setTimeout(r, delay))
         return this.searchAmap(keywords, types, city, page, retryCount + 1)
       }
@@ -187,6 +209,20 @@ export class AmapSync {
         retries: retryCount,
       }
     } catch (err: any) {
+      const responseStatus = err?.response?.status
+      const responseData = err?.response?.data
+      console.error('[AmapSync] AMap request exception', {
+        keywords,
+        city,
+        types,
+        page,
+        retryCount,
+        errorMessage: err?.message || String(err),
+        errorCode: err?.code,
+        responseStatus,
+        responseInfo: responseData?.info,
+        responseInfocode: responseData?.infocode,
+      })
       return {
         pois: [],
         rateLimited: false,

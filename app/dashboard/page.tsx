@@ -300,6 +300,7 @@ export default function DashboardPage() {
             { title: 'AI 行程生成', desc: '智能规划专属行程', icon: '✈️', href: '/itinerary' },
             { title: '景点推荐',    desc: '发现热门目的地',   icon: '🗺️', href: '/explore'   },
             { title: '旅游日记',    desc: '记录精彩旅程',     icon: '📔', href: '/diary'     },
+            { title: '导入监控',    desc: '查看同步健康度',   icon: '📊', href: '/sync-jobs' },
             { title: '个人主页',    desc: '查看偏好与足迹',     icon: '👤', href: '/profile'   },
           ].map(item => (
             <div key={item.title} style={{

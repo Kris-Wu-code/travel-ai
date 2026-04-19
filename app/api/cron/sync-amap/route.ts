@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const serviceRoleKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim()
 
     if (!serviceRoleKey) {
       return NextResponse.json(
@@ -29,9 +29,12 @@ export async function GET(request: NextRequest) {
       )
     }
 
+    // 使用当前请求域名，避免依赖 NEXT_PUBLIC_VERCEL_URL 配置
+    const baseUrl = request.nextUrl.origin
+
     // 调用同步 API
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'http://localhost:3000'}/api/sync-amap`,
+      `${baseUrl}/api/sync-amap`,
       {
         method: 'POST',
         headers: {

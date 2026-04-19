@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:amap": "tsx scripts/seed-amap.ts"
+    "seed:amap": "tsx scripts/seed-amap.ts",
+    "seed:scenes100": "tsx scripts/seed-famous-scenes.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.0",
