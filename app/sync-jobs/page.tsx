@@ -29,6 +29,13 @@ type Summary = {
   lastSuccessAt: string | null
 }
 
+type TrendPoint = {
+  date: string
+  success: number
+  failed: number
+  poiWritten: number
+}
+
 function formatDateTime(value: string | null) {
   if (!value) return '-'
   return new Date(value).toLocaleString('zh-CN', {
@@ -62,6 +69,8 @@ export default function SyncJobsPage() {
     avgDurationMs: 0,
     lastSuccessAt: null,
   })
+  const [trends, setTrends] = useState<TrendPoint[]>([])
+  const [statusFilter, setStatusFilter] = useState<'all' | 'success' | 'failed'>('all')
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -79,6 +88,7 @@ export default function SyncJobsPage() {
       }
 
       setJobs(Array.isArray(payload?.jobs) ? payload.jobs : [])
+      setTrends(Array.isArray(payload?.trends) ? payload.trends : [])
       setSummary(payload?.summary || {
         total: 0,
         successCount: 0,
@@ -91,6 +101,7 @@ export default function SyncJobsPage() {
     } catch (e: any) {
       setError(e?.message || '加载失败')
       setJobs([])
+      setTrends([])
       setLoading(false)
     }
   }, [])
@@ -100,6 +111,15 @@ export default function SyncJobsPage() {
   }, [load])
 
   const recentFailure = useMemo(() => jobs.find(job => job.status === 'failed') ?? null, [jobs])
+  const filteredJobs = useMemo(() => {
+    if (statusFilter === 'all') return jobs
+    return jobs.filter(job => job.status === statusFilter)
+  }, [jobs, statusFilter])
+
+  const maxTrendValue = useMemo(() => {
+    const values = trends.map(item => Math.max(item.success + item.failed, 1))
+    return values.length > 0 ? Math.max(...values) : 1
+  }, [trends])
 
   return (
     <PageShell
@@ -138,11 +158,55 @@ export default function SyncJobsPage() {
           </div>
         ) : null}
 
+        {trends.length > 0 ? (
+          <div style={styles.chartCard}>
+            <div style={styles.chartTitle}>近 7 天任务趋势</div>
+            <div style={styles.chartWrap}>
+              {trends.map(point => {
+                const total = point.success + point.failed
+                const barHeight = Math.max(8, Math.round((total / maxTrendValue) * 100))
+                return (
+                  <div key={point.date} style={styles.chartCol}>
+                    <div style={{ ...styles.chartBar, height: `${barHeight}px` }} title={`成功 ${point.success} / 失败 ${point.failed}`}>
+                      <div style={{ ...styles.chartSuccess, flex: point.success }} />
+                      <div style={{ ...styles.chartFailed, flex: point.failed }} />
+                    </div>
+                    <div style={styles.chartDate}>{point.date.slice(5)}</div>
+                    <div style={styles.chartMeta}>POI {point.poiWritten}</div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ) : null}
+
+        <div style={styles.filterRow}>
+          <button
+            style={statusFilter === 'all' ? styles.filterBtnActive : styles.filterBtn}
+            onClick={() => setStatusFilter('all')}
+          >
+            全部
+          </button>
+          <button
+            style={statusFilter === 'success' ? styles.filterBtnActive : styles.filterBtn}
+            onClick={() => setStatusFilter('success')}
+          >
+            仅成功
+          </button>
+          <button
+            style={statusFilter === 'failed' ? styles.filterBtnActive : styles.filterBtn}
+            onClick={() => setStatusFilter('failed')}
+          >
+            仅失败
+          </button>
+          <span style={styles.filterHint}>当前显示 {filteredJobs.length} 条</span>
+        </div>
+
         {loading ? (
           <div style={styles.empty}>正在加载同步数据...</div>
         ) : error ? (
           <div style={styles.empty}>加载失败：{error}</div>
-        ) : jobs.length === 0 ? (
+        ) : filteredJobs.length === 0 ? (
           <div style={styles.empty}>暂无同步任务记录</div>
         ) : (
           <div style={styles.tableWrap}>
@@ -160,7 +224,7 @@ export default function SyncJobsPage() {
                 </tr>
               </thead>
               <tbody>
-                {jobs.map(job => (
+                {filteredJobs.map(job => (
                   <tr key={job.id}>
                     <td style={styles.td}>{formatDateTime(job.created_at)}</td>
                     <td style={styles.td}>
@@ -242,6 +306,85 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '13px',
     color: '#9a3412',
     lineHeight: 1.6,
+  },
+  chartCard: {
+    background: '#fff',
+    border: '1px solid #e5e7eb',
+    borderRadius: '12px',
+    padding: '14px',
+  },
+  chartTitle: {
+    fontSize: '13px',
+    fontWeight: 700,
+    color: '#111827',
+    marginBottom: '12px',
+  },
+  chartWrap: {
+    display: 'flex',
+    gap: '10px',
+    alignItems: 'flex-end',
+    overflowX: 'auto',
+  },
+  chartCol: {
+    minWidth: '66px',
+    textAlign: 'center',
+  },
+  chartBar: {
+    width: '24px',
+    margin: '0 auto 6px',
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: '6px',
+    overflow: 'hidden',
+    background: '#f3f4f6',
+  },
+  chartSuccess: {
+    background: '#22c55e',
+    minHeight: '2px',
+  },
+  chartFailed: {
+    background: '#ef4444',
+    minHeight: '2px',
+  },
+  chartDate: {
+    fontSize: '11px',
+    color: '#6b7280',
+  },
+  chartMeta: {
+    fontSize: '11px',
+    color: '#374151',
+    marginTop: '2px',
+  },
+  filterRow: {
+    display: 'flex',
+    gap: '8px',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  filterBtn: {
+    padding: '6px 12px',
+    borderRadius: '999px',
+    border: '1px solid #d1d5db',
+    background: '#fff',
+    color: '#374151',
+    cursor: 'pointer',
+    fontSize: '12px',
+    fontWeight: 600,
+  },
+  filterBtnActive: {
+    padding: '6px 12px',
+    borderRadius: '999px',
+    border: '1px solid #4f46e5',
+    background: '#4f46e5',
+    color: '#fff',
+    cursor: 'pointer',
+    fontSize: '12px',
+    fontWeight: 600,
+  },
+  filterHint: {
+    marginLeft: '4px',
+    fontSize: '12px',
+    color: '#6b7280',
   },
   tableWrap: {
     overflowX: 'auto',

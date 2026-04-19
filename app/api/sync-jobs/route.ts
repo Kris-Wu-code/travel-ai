@@ -18,6 +18,13 @@ type SyncJobRow = {
   created_at: string
 }
 
+type TrendPoint = {
+  date: string
+  success: number
+  failed: number
+  poiWritten: number
+}
+
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
@@ -38,13 +45,14 @@ export async function GET() {
     .select('id, job_name, status, started_at, finished_at, duration_ms, scenes_count, amap_request_count, amap_rate_limited_count, amap_failed_count, poi_written_count, food_written_count, error_message, created_at')
     .eq('job_name', 'seed-amap')
     .order('created_at', { ascending: false })
-    .limit(20)
+    .limit(120)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  const jobs = (data ?? []) as SyncJobRow[]
+  const allJobs = (data ?? []) as SyncJobRow[]
+  const jobs = allJobs.slice(0, 20)
   const total = jobs.length
   const successCount = jobs.filter(job => job.status === 'success').length
   const failedCount = jobs.filter(job => job.status === 'failed').length
@@ -59,6 +67,38 @@ export async function GET() {
 
   const lastSuccess = jobs.find(job => job.status === 'success')
 
+  const trendMap = new Map<string, TrendPoint>()
+  const today = new Date()
+  const last7Keys: string[] = []
+  for (let i = 6; i >= 0; i -= 1) {
+    const d = new Date(today)
+    d.setDate(today.getDate() - i)
+    const key = d.toISOString().slice(0, 10)
+    last7Keys.push(key)
+    trendMap.set(key, {
+      date: key,
+      success: 0,
+      failed: 0,
+      poiWritten: 0,
+    })
+  }
+
+  for (const job of allJobs) {
+    const key = new Date(job.created_at).toISOString().slice(0, 10)
+    const point = trendMap.get(key)
+    if (!point) continue
+    if (job.status === 'success') {
+      point.success += 1
+    } else {
+      point.failed += 1
+    }
+    point.poiWritten += Number(job.poi_written_count || 0)
+  }
+
+  const trends = last7Keys
+    .map(key => trendMap.get(key))
+    .filter((item): item is TrendPoint => Boolean(item))
+
   return NextResponse.json({
     summary: {
       total,
@@ -69,5 +109,6 @@ export async function GET() {
       lastSuccessAt: lastSuccess?.finished_at ?? null,
     },
     jobs,
+    trends,
   })
 }
