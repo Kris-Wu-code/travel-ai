@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '../lib/supabase'
 import PageShell from '../components/page-shell'
 import { formatTransportList, getSceneTypeLabel, type SceneRecord } from '../lib/scenes'
+import CampusMapPanel from './campus-map-panel'
 
 type PoiItem = {
   id: string
@@ -22,7 +23,7 @@ type PoiItem = {
 export default function PlacesContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [mode, setMode] = useState<'nearby' | 'search'>('nearby')
+  const [mode, setMode] = useState<'nearby' | 'search' | 'map'>('nearby')
   const [scenes, setScenes] = useState<SceneRecord[]>([])
   const [selectedSceneId, setSelectedSceneId] = useState('')
   const [pois, setPois] = useState<PoiItem[]>([])
@@ -69,22 +70,56 @@ export default function PlacesContent() {
       setLoadingPois(true)
       setError(null)
 
-      const { data, error: loadError } = await supabase
-        .from('poi_items')
-        .select('id, name, category, city, address, avg_rating, review_count, price_level, tags, scene_id')
-        .eq('status', 'approved')
-        .eq('scene_id', selectedSceneId)
-        .order('avg_rating', { ascending: false, nullsFirst: false })
-        .limit(24)
+      try {
+        // 并行拉取：已存在的 poi_items（平台审核 POI）和 places（导入的场所数据，例如八达岭）
+        const [poiRes, placesRes] = await Promise.all([
+          supabase
+            .from('poi_items')
+            .select('id, name, category, city, address, avg_rating, review_count, price_level, tags, scene_id')
+            .eq('status', 'approved')
+            .eq('scene_id', selectedSceneId)
+            .order('avg_rating', { ascending: false, nullsFirst: false })
+            .limit(24),
 
-      if (loadError) {
-        setError(loadError.message)
+          // places 可能来自导入管线，字段不完全相同；尝试读取常见字段并按 scene_id 关联
+          supabase
+            .from('places')
+            .select('id, name, category, city, address, raw, source_id, scene_id')
+            .eq('scene_id', selectedSceneId)
+            .limit(48),
+        ])
+
+        if (poiRes.error) throw poiRes.error
+        if (placesRes.error) throw placesRes.error
+
+        const poiItems = (poiRes.data ?? []) as PoiItem[]
+
+        // 将 places 行映射成 PoiItem 兼容结构
+        const placesItems: PoiItem[] = (placesRes.data ?? []).map((p: any) => ({
+          id: `place:${p.id}`,
+          name: p.name ?? p.source_id ?? '未命名',
+          category: p.category ?? '场所',
+          city: p.city ?? null,
+          address: p.address ?? null,
+          avg_rating: null,
+          review_count: null,
+          price_level: null,
+          tags: Array.isArray(p.raw?.tags) ? p.raw.tags : null,
+          scene_id: p.scene_id ?? null,
+        }))
+
+        // 合并并去重（优先保留 poi_items 中的数据），限制 24 条
+        const mergedMap = new Map<string, PoiItem>()
+        for (const item of poiItems) mergedMap.set(item.id, item)
+        for (const item of placesItems) if (!mergedMap.has(item.id)) mergedMap.set(item.id, item)
+
+        const merged = Array.from(mergedMap.values()).slice(0, 24)
+        setPois(merged)
+      } catch (e: any) {
+        setError(e?.message || String(e))
+      } finally {
         setLoadingPois(false)
-        return
       }
-
-      setPois(data ?? [])
-      setLoadingPois(false)
     }
 
     loadPois()
@@ -112,11 +147,12 @@ export default function PlacesContent() {
   }, [keyword, pois])
 
   return (
-    <PageShell backHref="/dashboard" title="场所查询" subtitle="按图最短路径距离排序附近设施">
+    <PageShell backHref="/" title="场所查询" subtitle="按图最短路径距离排序附近设施">
       <div>
         <div style={styles.segmentRow}>
           <button style={mode === 'nearby' ? styles.segmentActive : styles.segment} onClick={() => setMode('nearby')}>附近设施</button>
           <button style={mode === 'search' ? styles.segmentActive : styles.segment} onClick={() => setMode('search')}>设施搜索</button>
+          <button style={mode === 'map' ? styles.segmentActive : styles.segment} onClick={() => setMode('map')}>地图图层</button>
         </div>
 
         <div style={styles.scenePanel}>
@@ -219,6 +255,8 @@ export default function PlacesContent() {
             )}
           </div>
         )}
+
+        {mode === 'map' && <CampusMapPanel />}
 
         <div style={styles.quickLinks}>
           <button style={styles.quickBtn} onClick={() => router.push('/scenes')}>去选场景</button>

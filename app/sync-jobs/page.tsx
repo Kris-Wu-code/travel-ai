@@ -1,7 +1,9 @@
 'use client'
 
+import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import PageShell from '../components/page-shell'
+import { loadSearchAnalyticsSummary, type SearchAnalyticsSummary } from '../lib/search-analytics'
 
 type SyncJobRow = {
   id: string
@@ -35,6 +37,14 @@ type TrendPoint = {
   failed: number
   poiWritten: number
 }
+
+type SearchAnalyticsApiPayload = {
+  totalSearches: number
+  noMatchSearches: number
+  noMatchRate: number
+  topKeywords: Array<{ keyword: string; count: number }>
+  topNoMatchKeywords: Array<{ keyword: string; count: number }>
+} | null
 
 function formatDateTime(value: string | null) {
   if (!value) return '-'
@@ -71,13 +81,23 @@ export default function SyncJobsPage() {
   })
   const [trends, setTrends] = useState<TrendPoint[]>([])
   const [statusFilter, setStatusFilter] = useState<'all' | 'success' | 'failed'>('all')
+  const [searchSummary, setSearchSummary] = useState<SearchAnalyticsSummary>({
+    totalSearches: 0,
+    noMatchSearches: 0,
+    noMatchRate: 0,
+    topKeywords: [],
+  })
+  const [topNoMatchKeywords, setTopNoMatchKeywords] = useState<Array<{ keyword: string; count: number }>>([])
+  const [searchSummarySource, setSearchSummarySource] = useState<'server' | 'local'>('local')
+  const [searchDaysFilter, setSearchDaysFilter] = useState(30)
 
   const load = useCallback(async () => {
     setLoading(true)
     setError(null)
 
     try {
-      const response = await fetch('/api/sync-jobs', { cache: 'no-store' })
+      const queryParams = new URLSearchParams({ days: String(searchDaysFilter) })
+      const response = await fetch(`/api/sync-jobs?${queryParams}`, { cache: 'no-store' })
       const payload = await response.json()
 
       if (!response.ok) {
@@ -97,18 +117,39 @@ export default function SyncJobsPage() {
         avgDurationMs: 0,
         lastSuccessAt: null,
       })
+
+      const serverSearch = (payload?.searchAnalytics ?? null) as SearchAnalyticsApiPayload
+      if (serverSearch) {
+        setSearchSummary({
+          totalSearches: serverSearch.totalSearches,
+          noMatchSearches: serverSearch.noMatchSearches,
+          noMatchRate: serverSearch.noMatchRate,
+          topKeywords: serverSearch.topKeywords,
+        })
+        setTopNoMatchKeywords(serverSearch.topNoMatchKeywords)
+        setSearchSummarySource('server')
+      } else {
+        const localSummary = loadSearchAnalyticsSummary()
+        setSearchSummary(localSummary)
+        setTopNoMatchKeywords([])
+        setSearchSummarySource('local')
+      }
       setLoading(false)
     } catch (e: any) {
       setError(e?.message || '加载失败')
       setJobs([])
       setTrends([])
+      const localSummary = loadSearchAnalyticsSummary()
+      setSearchSummary(localSummary)
+      setTopNoMatchKeywords([])
+      setSearchSummarySource('local')
       setLoading(false)
     }
-  }, [])
+  }, [searchDaysFilter])
 
   useEffect(() => {
     load()
-  }, [load])
+  }, [load, searchDaysFilter])
 
   const recentFailure = useMemo(() => jobs.find(job => job.status === 'failed') ?? null, [jobs])
   const filteredJobs = useMemo(() => {
@@ -123,10 +164,22 @@ export default function SyncJobsPage() {
 
   return (
     <PageShell
-      backHref="/dashboard"
+      backHref="/"
       title="导入监控面板"
       subtitle="查看最近 20 次 AMap 同步任务的执行健康度"
-      actions={<button style={styles.refreshBtn} onClick={load}>刷新</button>}
+      actions={
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button style={styles.refreshBtn} onClick={load}>
+            刷新
+          </button>
+          <Link href="/search-analytics" style={styles.analyticsBtn}>
+            搜索分析 →
+          </Link>
+          <Link href="/content-audit" style={styles.auditBtn}>
+            内容审计 →
+          </Link>
+        </div>
+      }
       contentMaxWidth="1100px"
     >
       <div style={styles.wrap}>
@@ -148,6 +201,54 @@ export default function SyncJobsPage() {
             <div style={styles.kpiLabel}>最近成功时间</div>
             <div style={styles.kpiSub}>{formatDateTime(summary.lastSuccessAt)}</div>
           </div>
+        </div>
+
+        <div style={styles.searchCard}>
+          <div style={styles.searchTitle}>搜索行为统计（{searchSummarySource === 'server' ? `全站近${searchDaysFilter}天` : '本设备本地'}）</div>
+          <div style={styles.searchTimeFilter}>
+            <button style={searchDaysFilter === 1 ? styles.timeFilterBtnActive : styles.timeFilterBtn} onClick={() => setSearchDaysFilter(1)}>今日</button>
+            <button style={searchDaysFilter === 7 ? styles.timeFilterBtnActive : styles.timeFilterBtn} onClick={() => setSearchDaysFilter(7)}>7天</button>
+            <button style={searchDaysFilter === 30 ? styles.timeFilterBtnActive : styles.timeFilterBtn} onClick={() => setSearchDaysFilter(30)}>30天</button>
+          </div>
+          <div style={styles.searchKpiRow}>
+            <div style={styles.searchKpiItem}>
+              <div style={styles.searchKpiLabel}>总搜索次数</div>
+              <div style={styles.searchKpiValue}>{searchSummary.totalSearches}</div>
+            </div>
+            <div style={styles.searchKpiItem}>
+              <div style={styles.searchKpiLabel}>无匹配次数</div>
+              <div style={styles.searchKpiValue}>{searchSummary.noMatchSearches}</div>
+            </div>
+            <div style={styles.searchKpiItem}>
+              <div style={styles.searchKpiLabel}>无匹配占比</div>
+              <div style={styles.searchKpiValue}>{searchSummary.noMatchRate}%</div>
+            </div>
+          </div>
+
+          {searchSummary.topKeywords.length > 0 ? (
+            <div style={styles.keywordWrap}>
+              {searchSummary.topKeywords.map(item => (
+                <div key={item.keyword} style={styles.keywordTag}>
+                  {item.keyword === '__all__' ? '查看全部景区' : item.keyword} · {item.count}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={styles.searchHint}>还没有搜索数据，先在首页或任意页面顶部试一次搜索。</div>
+          )}
+
+          {topNoMatchKeywords.length > 0 ? (
+            <div style={styles.noMatchWrap}>
+              <div style={styles.noMatchTitle}>无匹配关键词 Top</div>
+              <div style={styles.keywordWrap}>
+                {topNoMatchKeywords.map(item => (
+                  <div key={`nomatch-${item.keyword}`} style={styles.keywordTagWarn}>
+                    {item.keyword === '__all__' ? '查看全部景区' : item.keyword} · {item.count}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
 
         {recentFailure ? (
@@ -264,6 +365,30 @@ const styles: Record<string, React.CSSProperties> = {
     cursor: 'pointer',
     fontWeight: 600,
   },
+  auditBtn: {
+    padding: '8px 14px',
+    borderRadius: '10px',
+    border: '1px solid #10b981',
+    background: '#10b981',
+    color: '#fff',
+    fontSize: '13px',
+    cursor: 'pointer',
+    fontWeight: 600,
+    textDecoration: 'none',
+    display: 'inline-block',
+  },
+  analyticsBtn: {
+    padding: '8px 14px',
+    borderRadius: '10px',
+    border: '1px solid #8b5cf6',
+    background: '#8b5cf6',
+    color: '#fff',
+    fontSize: '13px',
+    cursor: 'pointer',
+    fontWeight: 600,
+    textDecoration: 'none',
+    display: 'inline-block',
+  },
   kpiGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
@@ -354,6 +479,102 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '11px',
     color: '#374151',
     marginTop: '2px',
+  },
+  searchCard: {
+    background: '#fff',
+    border: '1px solid #e5e7eb',
+    borderRadius: '12px',
+    padding: '14px',
+  },
+  searchTitle: {
+    fontSize: '13px',
+    fontWeight: 700,
+    color: '#111827',
+    marginBottom: '10px',
+  },
+  searchTimeFilter: {
+    display: 'flex',
+    gap: '6px',
+    marginBottom: '12px',
+  },
+  timeFilterBtn: {
+    padding: '5px 10px',
+    borderRadius: '6px',
+    border: '1px solid #d1d5db',
+    background: '#f9fafb',
+    color: '#374151',
+    cursor: 'pointer',
+    fontSize: '12px',
+    fontWeight: 500,
+  },
+  timeFilterBtnActive: {
+    padding: '5px 10px',
+    borderRadius: '6px',
+    border: '1px solid #10b981',
+    background: '#10b981',
+    color: '#fff',
+    cursor: 'pointer',
+    fontSize: '12px',
+    fontWeight: 500,
+  },
+  searchKpiRow: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+    gap: '10px',
+  },
+  searchKpiItem: {
+    border: '1px solid #e5e7eb',
+    borderRadius: '10px',
+    padding: '10px',
+    background: '#f9fafb',
+  },
+  searchKpiLabel: {
+    fontSize: '12px',
+    color: '#6b7280',
+  },
+  searchKpiValue: {
+    marginTop: '5px',
+    fontSize: '18px',
+    fontWeight: 700,
+    color: '#111827',
+  },
+  keywordWrap: {
+    marginTop: '10px',
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '8px',
+  },
+  keywordTag: {
+    border: '1px solid #dbe2f1',
+    borderRadius: '999px',
+    padding: '4px 10px',
+    fontSize: '12px',
+    color: '#374151',
+    background: '#fff',
+  },
+  searchHint: {
+    marginTop: '10px',
+    fontSize: '12px',
+    color: '#6b7280',
+  },
+  noMatchWrap: {
+    marginTop: '12px',
+    paddingTop: '10px',
+    borderTop: '1px solid #f3f4f6',
+  },
+  noMatchTitle: {
+    fontSize: '12px',
+    color: '#9a3412',
+    fontWeight: 700,
+    marginBottom: '8px',
+  },
+  keywordTagWarn: {
+    border: '1px solid #fed7aa',
+    borderRadius: '999px',
+    padding: '4px 10px',
+    fontSize: '12px',
+    color: '#9a3412',
+    background: '#fff7ed',
   },
   filterRow: {
     display: 'flex',

@@ -1,0 +1,75 @@
+{
+  "sourceFeatures": 1080,
+  "buildings": {
+    "total": 248,
+    "kinds": {
+      "教学楼": 58,
+      "宿舍楼": 3,
+      "建筑:train_station": 2,
+      "未细分建筑": 27,
+      "建筑:house": 85,
+      "泛化建筑": 51,
+      "建筑:apartments": 15,
+      "图书馆": 1,
+      "办公室": 1,
+      "建筑:hospital": 2,
+      "建筑:roof": 1,
+      "商业建筑": 1,
+      "建筑:residential": 1
+    }
+  },
+  "facilities": {
+    "total": 55,
+    "kinds": {
+      "校园服务": 7,
+      "超市": 6,
+      "图书馆": 3,
+      "饭店": 8,
+      "教学服务": 4,
+      "停车场": 7,
+      "自行车停车": 5,
+      "快餐": 7,
+      "景点": 1,
+      "咖啡馆": 3,
+      "邮局": 2,
+      "ATM": 1,
+      "手机店": 1
+    },
+    "distinctKinds": 13
+  },
+  "roads": {
+    "total": 614,
+    "kinds": {
+      "road:primary": 48,
+      "road:secondary": 42,
+      "road:motorway_link": 6,
+      "road:tertiary": 60,
+      "road:motorway": 8,
+      "road:platform": 1,
+      "服务路": 34,
+      "内部道路": 181,
+      "步行路": 193,
+      "road:unclassified": 12,
+      "骑行路": 4,
+      "road:proposed": 8,
+      "road:tertiary_link": 1,
+      "road:construction": 4,
+      "台阶": 8,
+      "road:corridor": 4
+    }
+  },
+  "indoorPaths": {
+    "total": 141,
+    "kinds": {
+      "indoor:room": 118,
+      "indoor:area": 2,
+      "indoor:yes": 4,
+      "entrance:secondary": 1,
+      "entrance:main": 4,
+      "entrance:service": 1,
+      "level:0": 7,
+      "level:1": 3,
+      "entrance:yes": 1
+    }
+  }
+}

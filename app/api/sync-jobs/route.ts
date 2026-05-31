@@ -25,9 +25,26 @@ type TrendPoint = {
   poiWritten: number
 }
 
+type SearchEventRow = {
+  keyword: string
+  has_suggestion_match: boolean
+  created_at: string
+}
+
+type SearchAnalyticsPayload = {
+  totalSearches: number
+  noMatchSearches: number
+  noMatchRate: number
+  topKeywords: Array<{ keyword: string; count: number }>
+  topNoMatchKeywords: Array<{ keyword: string; count: number }>
+} | null
+
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url)
+  const daysParam = searchParams.get('days')
+  const daysFilter = Math.max(1, Math.min(90, parseInt(daysParam || '30', 10)))
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
@@ -39,6 +56,7 @@ export async function GET() {
   }
 
   const supabase = createClient(supabaseUrl, serviceRoleKey)
+  let searchAnalytics: SearchAnalyticsPayload = null
 
   const { data, error } = await supabase
     .from('sync_jobs')
@@ -99,6 +117,51 @@ export async function GET() {
     .map(key => trendMap.get(key))
     .filter((item): item is TrendPoint => Boolean(item))
 
+  const since = new Date()
+  since.setDate(since.getDate() - daysFilter)
+  const sinceIso = since.toISOString()
+
+  const { data: searchEventRows, error: searchError } = await supabase
+    .from('search_events')
+    .select('keyword, has_suggestion_match, created_at')
+    .gte('created_at', sinceIso)
+    .order('created_at', { ascending: false })
+    .limit(1200)
+
+  if (!searchError && Array.isArray(searchEventRows)) {
+    const rows = searchEventRows as SearchEventRow[]
+    const totalSearches = rows.length
+    const noMatchRows = rows.filter(item => !item.has_suggestion_match)
+    const noMatchSearches = noMatchRows.length
+    const noMatchRate = totalSearches > 0 ? Number(((noMatchSearches / totalSearches) * 100).toFixed(1)) : 0
+
+    const keywordCounter = new Map<string, number>()
+    for (const item of rows) {
+      const key = item.keyword || '__all__'
+      keywordCounter.set(key, (keywordCounter.get(key) ?? 0) + 1)
+    }
+
+    const noMatchCounter = new Map<string, number>()
+    for (const item of noMatchRows) {
+      const key = item.keyword || '__all__'
+      noMatchCounter.set(key, (noMatchCounter.get(key) ?? 0) + 1)
+    }
+
+    searchAnalytics = {
+      totalSearches,
+      noMatchSearches,
+      noMatchRate,
+      topKeywords: [...keywordCounter.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([keyword, count]) => ({ keyword, count })),
+      topNoMatchKeywords: [...noMatchCounter.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([keyword, count]) => ({ keyword, count })),
+    }
+  }
+
   return NextResponse.json({
     summary: {
       total,
@@ -110,5 +173,6 @@ export async function GET() {
     },
     jobs,
     trends,
+    searchAnalytics,
   })
 }

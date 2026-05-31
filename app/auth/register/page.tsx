@@ -28,6 +28,13 @@ export default function RegisterPage() {
     setLoading(true)
     setMessage('')
 
+    if (!supabase) {
+      setLoading(false)
+      setIsError(true)
+      setMessage('系统未配置 Supabase，无法注册')
+      return
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -43,7 +50,7 @@ export default function RegisterPage() {
 
     // 注册成功后在 profiles 表里创建用户信息
     if (data.user) {
-      await supabase.from('profiles').insert({
+      await (supabase as any).from('profiles').insert({
         user_id: data.user.id,
         display_name: email.split('@')[0],
         questionnaire_done: false,
@@ -55,136 +62,60 @@ setMessage('注册成功！请查收邮件完成验证，然后去登录')
   }
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>创建账号</h1>
-        <p style={styles.subtitle}>个性化旅游系统</p>
+    <div className="auth-shell">
+      <aside className="auth-side">
+        <div className="brand-badge">TRAVEL AI</div>
+        <h1>创建你的旅行账号</h1>
+        <p>注册后可保存偏好和问卷结果，推荐将更贴合你的旅行习惯。</p>
+        <Link href="/" className="btn btn-ghost">返回首页</Link>
+      </aside>
 
-        <div style={styles.field}>
-          <label style={styles.label}>邮箱</label>
-          <input
-            style={styles.input}
-            type="email"
-            placeholder="请输入邮箱"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-        </div>
+      <main className="auth-main">
+        <div className="auth-card">
+          <h2>立即注册</h2>
+          <p>使用邮箱快速创建账号</p>
 
-        <div style={styles.field}>
-          <label style={styles.label}>密码</label>
-          <input
-            style={styles.input}
-            type="password"
-            placeholder="至少6位密码"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
-        </div>
-
-        {message && (
-          <div style={{
-            ...styles.message,
-            background: isError ? '#fff0f0' : '#f0fff4',
-            color: isError ? '#c0392b' : '#27ae60',
-            border: `1px solid ${isError ? '#ffc0c0' : '#a8e6cf'}`,
-          }}>
-            {message}
+          <div className="auth-field">
+            <label>邮箱</label>
+            <input
+              className="auth-input"
+              type="email"
+              placeholder="请输入邮箱"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
           </div>
-        )}
 
-        <button
-          style={{ ...styles.button, opacity: loading ? 0.7 : 1 }}
-          onClick={handleRegister}
-          disabled={loading}
-        >
-          {loading ? '注册中...' : '注册'}
-        </button>
+          <div className="auth-field">
+            <label>密码</label>
+            <input
+              className="auth-input"
+              type="password"
+              placeholder="至少 6 位密码"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+          </div>
 
-        <p style={styles.linkText}>
-          已有账号？
-          <Link href="/auth/login" style={styles.link}>去登录</Link>
-        </p>
-      </div>
+          {message ? (
+            <div className={isError ? 'auth-message error' : 'auth-message success'}>{message}</div>
+          ) : null}
+
+          <button
+            className="auth-submit"
+            style={{ opacity: loading ? 0.7 : 1 }}
+            onClick={handleRegister}
+            disabled={loading}
+          >
+            {loading ? '注册中...' : '注册'}
+          </button>
+
+          <p className="auth-switch">
+            已有账号？
+            <Link href="/auth/login">去登录</Link>
+          </p>
+        </div>
+      </main>
     </div>
   )
-}
-
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: '#f5f7fa',
-    fontFamily: 'system-ui, sans-serif',
-  },
-  card: {
-    background: '#fff',
-    borderRadius: '16px',
-    padding: '40px',
-    width: '100%',
-    maxWidth: '400px',
-    boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-  },
-  title: {
-    fontSize: '26px',
-    fontWeight: '600',
-    margin: '0 0 6px',
-    color: '#1a1a2e',
-  },
-  subtitle: {
-    fontSize: '14px',
-    color: '#888',
-    margin: '0 0 32px',
-  },
-  field: {
-    marginBottom: '20px',
-  },
-  label: {
-    display: 'block',
-    fontSize: '14px',
-    fontWeight: '500',
-    color: '#444',
-    marginBottom: '8px',
-  },
-  input: {
-    width: '100%',
-    padding: '12px 14px',
-    borderRadius: '8px',
-    border: '1px solid #ddd',
-    fontSize: '15px',
-    outline: 'none',
-    boxSizing: 'border-box',
-  },
-  message: {
-    padding: '12px 14px',
-    borderRadius: '8px',
-    fontSize: '14px',
-    marginBottom: '20px',
-  },
-  button: {
-    width: '100%',
-    padding: '13px',
-    background: '#4f46e5',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '8px',
-    fontSize: '16px',
-    fontWeight: '600',
-    cursor: 'pointer',
-    marginBottom: '20px',
-  },
-  linkText: {
-    textAlign: 'center',
-    fontSize: '14px',
-    color: '#666',
-    margin: 0,
-  },
-  link: {
-    color: '#4f46e5',
-    marginLeft: '4px',
-    textDecoration: 'none',
-    fontWeight: '500',
-  },
 }

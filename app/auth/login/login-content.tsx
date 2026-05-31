@@ -23,6 +23,12 @@ export default function LoginContent() {
     setLoading(true)
     setMessage('')
 
+    if (!supabase) {
+      setLoading(false)
+      setMessage('系统未配置 Supabase，无法登录')
+      return
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -50,145 +56,73 @@ export default function LoginContent() {
         .single()
 
       // 没有 profile 记录，或者问卷未完成，跳到问卷页
-      if (!profile || !profile.questionnaire_done) {
+      if (!profile || !(profile as any).questionnaire_done) {
         router.push('/onboarding')
       } else {
-        router.push('/dashboard')
+        router.push('/')
       }
     } else {
-      router.push('/dashboard')
+      router.push('/')
     }
   }
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>登录</h1>
-        <p style={styles.subtitle}>个性化旅游系统</p>
+    <div className="auth-shell">
+      <aside className="auth-side">
+        <div className="brand-badge">TRAVEL AI</div>
+        <h1>欢迎回来</h1>
+        <p>登录后继续使用统一工作台，管理你的偏好、景区与旅行计划。</p>
+        <Link href="/" className="btn btn-ghost">返回首页</Link>
+      </aside>
 
-        <div style={styles.field}>
-          <label style={styles.label}>邮箱</label>
-          <input
-            style={styles.input}
-            type="email"
-            placeholder="请输入邮箱"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handleLogin()}
-          />
+      <main className="auth-main">
+        <div className="auth-card">
+          <h2>登录账号</h2>
+          <p>输入邮箱和密码进入工作台</p>
+
+          <div className="auth-field">
+            <label>邮箱</label>
+            <input
+              className="auth-input"
+              type="email"
+              placeholder="请输入邮箱"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleLogin()}
+            />
+          </div>
+
+          <div className="auth-field">
+            <label>密码</label>
+            <input
+              className="auth-input"
+              type="password"
+              placeholder="请输入密码"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleLogin()}
+            />
+          </div>
+
+          {message ? (
+            <div className="auth-message error">{message}</div>
+          ) : null}
+
+          <button
+            className="auth-submit"
+            style={{ opacity: loading ? 0.7 : 1 }}
+            onClick={handleLogin}
+            disabled={loading}
+          >
+            {loading ? '登录中...' : '登录'}
+          </button>
+
+          <p className="auth-switch">
+            没有账号？
+            <Link href="/auth/register">去注册</Link>
+          </p>
         </div>
-
-        <div style={styles.field}>
-          <label style={styles.label}>密码</label>
-          <input
-            style={styles.input}
-            type="password"
-            placeholder="请输入密码"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handleLogin()}
-          />
-        </div>
-
-        {message && (
-          <div style={styles.error}>{message}</div>
-        )}
-
-        <button
-          style={{ ...styles.button, opacity: loading ? 0.7 : 1 }}
-          onClick={handleLogin}
-          disabled={loading}
-        >
-          {loading ? '登录中...' : '登录'}
-        </button>
-
-        <p style={styles.linkText}>
-          没有账号？
-          <Link href="/auth/register" style={styles.link}>去注册</Link>
-        </p>
-      </div>
+      </main>
     </div>
   )
-}
-
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: '#f5f7fa',
-    fontFamily: 'system-ui, sans-serif',
-  },
-  card: {
-    background: '#fff',
-    borderRadius: '16px',
-    padding: '40px',
-    width: '100%',
-    maxWidth: '400px',
-    boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-  },
-  title: {
-    fontSize: '26px',
-    fontWeight: '600',
-    margin: '0 0 6px',
-    color: '#1a1a2e',
-  },
-  subtitle: {
-    fontSize: '14px',
-    color: '#888',
-    margin: '0 0 32px',
-  },
-  field: {
-    marginBottom: '20px',
-  },
-  label: {
-    display: 'block',
-    fontSize: '14px',
-    fontWeight: '500',
-    color: '#444',
-    marginBottom: '8px',
-  },
-  input: {
-    width: '100%',
-    padding: '12px 14px',
-    borderRadius: '8px',
-    border: '1px solid #ddd',
-    fontSize: '15px',
-    outline: 'none',
-    boxSizing: 'border-box',
-  },
-  error: {
-    padding: '12px 14px',
-    borderRadius: '8px',
-    fontSize: '14px',
-    marginBottom: '20px',
-    background: '#fff0f0',
-    color: '#c0392b',
-    border: '1px solid #ffc0c0',
-  },
-  button: {
-    width: '100%',
-    padding: '13px',
-    background: '#4f46e5',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '8px',
-    fontSize: '16px',
-    fontWeight: '600',
-    cursor: 'pointer',
-    marginBottom: '20px',
-  },
-  linkText: {
-    textAlign: 'center',
-    fontSize: '14px',
-    color: '#666',
-    margin: 0,
-  },
-  link: {
-    color: '#4f46e5',
-    marginLeft: '4px',
-    textDecoration: 'none',
-    fontWeight: '500',
-  },
 }

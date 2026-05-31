@@ -1,0 +1,2384 @@
+[
+  {
+    "osm_id": "node/666789227",
+    "name": "北十一楼登城口",
+    "category": "entrance",
+    "tags": {
+      "entrance": "yes",
+      "name": "北十一楼登城口",
+      "id": "node/666789227"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0163528,
+        40.3556443
+      ]
+    },
+    "lat": 40.3556443,
+    "lng": 116.0163528
+  },
+  {
+    "osm_id": "node/666789237",
+    "name": "北十一楼检票处",
+    "category": "entrance",
+    "tags": {
+      "entrance": "yes",
+      "name": "北十一楼检票处",
+      "id": "node/666789237"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0163211,
+        40.3558394
+      ]
+    },
+    "lat": 40.3558394,
+    "lng": 116.0163211
+  },
+  {
+    "osm_id": "node/1412783051",
+    "name": "八达岭熊乐园大门",
+    "category": "entrance",
+    "tags": {
+      "entrance": "yes",
+      "name": "八达岭熊乐园大门",
+      "id": "node/1412783051"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.012796,
+        40.3537697
+      ]
+    },
+    "lat": 40.3537697,
+    "lng": 116.012796
+  },
+  {
+    "osm_id": "node/1962323178",
+    "name": "八达岭和平园牌坊",
+    "category": "entrance",
+    "tags": {
+      "ceremonial_gate": "paifang",
+      "entrance": "yes",
+      "man_made": "ceremonial_gate",
+      "name": "八达岭和平园牌坊",
+      "id": "node/1962323178"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0060703,
+        40.354183
+      ]
+    },
+    "lat": 40.354183,
+    "lng": 116.0060703
+  },
+  {
+    "osm_id": "node/1965907421",
+    "name": "node/1965907421",
+    "category": "entrance",
+    "tags": {
+      "entrance": "yes",
+      "id": "node/1965907421"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0149223,
+        40.3601404
+      ]
+    },
+    "lat": 40.3601404,
+    "lng": 116.0149223
+  },
+  {
+    "osm_id": "node/3699965262",
+    "name": "检票处",
+    "category": "entrance",
+    "tags": {
+      "entrance": "yes",
+      "name": "检票处",
+      "name:en": "Entrance to the Great Wall",
+      "name:ja": "万里の長城 入口",
+      "name:ru": "Вход на Великую стену",
+      "name:zh": "登城口检票处",
+      "id": "node/3699965262"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0066522,
+        40.3540966
+      ]
+    },
+    "lat": 40.3540966,
+    "lng": 116.0066522
+  },
+  {
+    "osm_id": "node/11607157206",
+    "name": "node/11607157206",
+    "category": "entrance",
+    "tags": {
+      "entrance": "entrance",
+      "id": "node/11607157206"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0086221,
+        40.3545298
+      ]
+    },
+    "lat": 40.3545298,
+    "lng": 116.0086221
+  },
+  {
+    "osm_id": "node/11607157218",
+    "name": "node/11607157218",
+    "category": "entrance",
+    "tags": {
+      "entrance": "exit",
+      "id": "node/11607157218"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0087045,
+        40.3544638
+      ]
+    },
+    "lat": 40.3544638,
+    "lng": 116.0087045
+  },
+  {
+    "osm_id": "node/11609596663",
+    "name": "登城口检票处（仅团队）",
+    "category": "entrance",
+    "tags": {
+      "entrance": "yes",
+      "name": "登城口检票处（仅团队）",
+      "name:en": "Entrance to the Great Wall(Groups Only)",
+      "name:ja": "万里の長城 入口",
+      "name:ru": "Вход на Великую стену",
+      "name:zh": "登城口检票处（仅团队）",
+      "id": "node/11609596663"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0072129,
+        40.3538784
+      ]
+    },
+    "lat": 40.3538784,
+    "lng": 116.0072129
+  },
+  {
+    "osm_id": "node/11609596665",
+    "name": "关城无障碍通道入口",
+    "category": "entrance",
+    "tags": {
+      "entrance": "yes",
+      "name": "关城无障碍通道入口",
+      "name:en": "Wheelchair Accessible Entrance",
+      "id": "node/11609596665"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0074787,
+        40.3544574
+      ]
+    },
+    "lat": 40.3544574,
+    "lng": 116.0074787
+  },
+  {
+    "osm_id": "way/366003297",
+    "name": "登城口售票处",
+    "category": "ticket",
+    "tags": {
+      "building": "yes",
+      "name": "登城口售票处",
+      "name:en": "Tickets Office Entrance",
+      "name:ja": "八達嶺 長城 券売所",
+      "shop": "ticket",
+      "id": "way/366003297"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0066909,
+            40.3542237
+          ],
+          [
+            116.0066094,
+            40.3542381
+          ],
+          [
+            116.0065708,
+            40.3541114
+          ],
+          [
+            116.0065201,
+            40.3539453
+          ],
+          [
+            116.0066017,
+            40.3539308
+          ],
+          [
+            116.0066522,
+            40.3540966
+          ],
+          [
+            116.0066909,
+            40.3542237
+          ]
+        ]
+      ]
+    },
+    "lat": 40.354109942857136,
+    "lng": 116.00661942857141
+  },
+  {
+    "osm_id": "way/1250479588",
+    "name": "缆车售票处",
+    "category": "ticket",
+    "tags": {
+      "building": "yes",
+      "name": "缆车售票处",
+      "shop": "ticket",
+      "id": "way/1250479588"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0062775,
+            40.3590281
+          ],
+          [
+            116.0062221,
+            40.3590017
+          ],
+          [
+            116.0063134,
+            40.3588903
+          ],
+          [
+            116.0063689,
+            40.3589168
+          ],
+          [
+            116.0062775,
+            40.3590281
+          ]
+        ]
+      ]
+    },
+    "lat": 40.358973000000006,
+    "lng": 116.00629188
+  },
+  {
+    "osm_id": "node/11623812903",
+    "name": "八达岭长城景区售票处",
+    "category": "ticket",
+    "tags": {
+      "name": "八达岭长城景区售票处",
+      "name:en": "Ticket Office",
+      "name:ru": "Кассы",
+      "name:zh": "售票处",
+      "name:zh-Hans": "售票处",
+      "name:zh-Hant": "售票處",
+      "shop": "ticket",
+      "id": "node/11623812903"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0115214,
+        40.3525418
+      ]
+    },
+    "lat": 40.3525418,
+    "lng": 116.0115214
+  },
+  {
+    "osm_id": "node/11623813271",
+    "name": "八达岭北线索道售票处",
+    "category": "ticket",
+    "tags": {
+      "name": "八达岭北线索道售票处",
+      "shop": "ticket",
+      "id": "node/11623813271"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0069287,
+        40.3598508
+      ]
+    },
+    "lat": 40.3598508,
+    "lng": 116.0069287
+  },
+  {
+    "osm_id": "node/11630715239",
+    "name": "八达岭长城下山滑车售票处",
+    "category": "ticket",
+    "tags": {
+      "charge": "80RMB",
+      "name": "八达岭长城下山滑车售票处",
+      "shop": "ticket",
+      "id": "node/11630715239"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0120843,
+        40.3564299
+      ]
+    },
+    "lat": 40.3564299,
+    "lng": 116.0120843
+  },
+  {
+    "osm_id": "way/1248733429",
+    "name": "长城印象",
+    "category": "museum",
+    "tags": {
+      "building": "yes",
+      "museum": "history",
+      "name": "长城印象",
+      "tourism": "museum",
+      "id": "way/1248733429"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0070525,
+            40.3539118
+          ],
+          [
+            116.006751,
+            40.3539554
+          ],
+          [
+            116.0067333,
+            40.3538844
+          ],
+          [
+            116.0070349,
+            40.3538409
+          ],
+          [
+            116.0070525,
+            40.3539118
+          ]
+        ]
+      ]
+    },
+    "lat": 40.353900859999996,
+    "lng": 116.00692484000001
+  },
+  {
+    "osm_id": "node/666789413",
+    "name": "北八楼观景点",
+    "category": "viewpoint",
+    "tags": {
+      "name": "北八楼观景点",
+      "name:en": "Great Wall",
+      "tourism": "viewpoint",
+      "id": "node/666789413"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0158611,
+        40.3608343
+      ]
+    },
+    "lat": 40.3608343,
+    "lng": 116.0158611
+  },
+  {
+    "osm_id": "node/11609596739",
+    "name": "望京台",
+    "category": "viewpoint",
+    "tags": {
+      "name": "望京台",
+      "name:en": "The Platform Of Watching Beijing",
+      "tourism": "viewpoint",
+      "id": "node/11609596739"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0080478,
+        40.353722
+      ]
+    },
+    "lat": 40.353722,
+    "lng": 116.0080478
+  },
+  {
+    "osm_id": "node/11623813113",
+    "name": "node/11623813113",
+    "category": "viewpoint",
+    "tags": {
+      "tourism": "viewpoint",
+      "id": "node/11623813113"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0063907,
+        40.3527154
+      ]
+    },
+    "lat": 40.3527154,
+    "lng": 116.0063907
+  },
+  {
+    "osm_id": "way/1248733440",
+    "name": "way/1248733440",
+    "category": "toilet",
+    "tags": {
+      "amenity": "toilets",
+      "building": "yes",
+      "id": "way/1248733440"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0072505,
+            40.3535623
+          ],
+          [
+            116.0071491,
+            40.3536053
+          ],
+          [
+            116.0071115,
+            40.3535539
+          ],
+          [
+            116.0072129,
+            40.3535109
+          ],
+          [
+            116.0072505,
+            40.3535623
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35355894,
+    "lng": 116.00719490000002
+  },
+  {
+    "osm_id": "way/1248982570",
+    "name": "way/1248982570",
+    "category": "toilet",
+    "tags": {
+      "amenity": "toilets",
+      "building": "yes",
+      "id": "way/1248982570"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0079678,
+            40.3546257
+          ],
+          [
+            116.0079679,
+            40.3546475
+          ],
+          [
+            116.0078915,
+            40.3546478
+          ],
+          [
+            116.0078916,
+            40.3546681
+          ],
+          [
+            116.0078215,
+            40.3546683
+          ],
+          [
+            116.0078213,
+            40.3546262
+          ],
+          [
+            116.0079678,
+            40.3546257
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35464418571428,
+    "lng": 116.0079042
+  },
+  {
+    "osm_id": "way/1250479508",
+    "name": "way/1250479508",
+    "category": "toilet",
+    "tags": {
+      "amenity": "toilets",
+      "building": "yes",
+      "id": "way/1250479508"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0108442,
+            40.3517999
+          ],
+          [
+            116.0108947,
+            40.3517314
+          ],
+          [
+            116.0110341,
+            40.3517911
+          ],
+          [
+            116.0109836,
+            40.3518596
+          ],
+          [
+            116.0108442,
+            40.3517999
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35179638,
+    "lng": 116.01092016
+  },
+  {
+    "osm_id": "way/1250479527",
+    "name": "way/1250479527",
+    "category": "toilet",
+    "tags": {
+      "amenity": "toilets",
+      "building": "yes",
+      "id": "way/1250479527"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0135633,
+            40.3542271
+          ],
+          [
+            116.0134968,
+            40.3542573
+          ],
+          [
+            116.0133676,
+            40.3540922
+          ],
+          [
+            116.0134341,
+            40.354062
+          ],
+          [
+            116.0135633,
+            40.3542271
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35417314,
+    "lng": 116.01348502
+  },
+  {
+    "osm_id": "way/1250479568",
+    "name": "way/1250479568",
+    "category": "toilet",
+    "tags": {
+      "amenity": "toilets",
+      "building": "yes",
+      "id": "way/1250479568"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0147308,
+            40.3599079
+          ],
+          [
+            116.0147133,
+            40.3598902
+          ],
+          [
+            116.0148178,
+            40.3598304
+          ],
+          [
+            116.0147942,
+            40.3598065
+          ],
+          [
+            116.0148172,
+            40.3597933
+          ],
+          [
+            116.0148583,
+            40.359835
+          ],
+          [
+            116.0147308,
+            40.3599079
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35985302857143,
+    "lng": 116.01478034285712
+  },
+  {
+    "osm_id": "way/1250479580",
+    "name": "way/1250479580",
+    "category": "toilet",
+    "tags": {
+      "amenity": "toilets",
+      "building": "yes",
+      "id": "way/1250479580"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.006493,
+            40.3599796
+          ],
+          [
+            116.0064008,
+            40.359971
+          ],
+          [
+            116.0064457,
+            40.3596925
+          ],
+          [
+            116.006538,
+            40.3597012
+          ],
+          [
+            116.006493,
+            40.3599796
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35986478,
+    "lng": 116.00647409999999
+  },
+  {
+    "osm_id": "way/1251204823",
+    "name": "way/1251204823",
+    "category": "toilet",
+    "tags": {
+      "amenity": "toilets",
+      "building": "yes",
+      "id": "way/1251204823"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0123046,
+            40.3563771
+          ],
+          [
+            116.0123222,
+            40.3563141
+          ],
+          [
+            116.0123053,
+            40.3563114
+          ],
+          [
+            116.0123176,
+            40.3562674
+          ],
+          [
+            116.0123398,
+            40.356271
+          ],
+          [
+            116.0123622,
+            40.3561911
+          ],
+          [
+            116.0124024,
+            40.3561977
+          ],
+          [
+            116.0123499,
+            40.3563845
+          ],
+          [
+            116.0123046,
+            40.3563771
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35629904444444,
+    "lng": 116.0123342888889
+  },
+  {
+    "osm_id": "node/3698696808",
+    "name": "node/3698696808",
+    "category": "toilet",
+    "tags": {
+      "access": "yes",
+      "amenity": "toilets",
+      "fee": "no",
+      "toilets:disposal": "flush",
+      "id": "node/3698696808"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0069489,
+        40.3536934
+      ]
+    },
+    "lat": 40.3536934,
+    "lng": 116.0069489
+  },
+  {
+    "osm_id": "way/365613045",
+    "name": "八达岭客栈餐厅",
+    "category": "food",
+    "tags": {
+      "amenity": "restaurant",
+      "building": "yes",
+      "name": "八达岭客栈餐厅",
+      "id": "way/365613045"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0089365,
+            40.3602671
+          ],
+          [
+            116.0087281,
+            40.3600289
+          ],
+          [
+            116.0086787,
+            40.3599724
+          ],
+          [
+            116.0087685,
+            40.3599268
+          ],
+          [
+            116.0088018,
+            40.3599649
+          ],
+          [
+            116.0090263,
+            40.3602215
+          ],
+          [
+            116.0089365,
+            40.3602671
+          ]
+        ]
+      ]
+    },
+    "lat": 40.36009267142857,
+    "lng": 116.00883948571428
+  },
+  {
+    "osm_id": "way/1248733430",
+    "name": "长城大咖",
+    "category": "food",
+    "tags": {
+      "amenity": "cafe",
+      "building": "yes",
+      "name": "长城大咖",
+      "id": "way/1248733430"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0063546,
+            40.3545826
+          ],
+          [
+            116.0061309,
+            40.354633
+          ],
+          [
+            116.0061071,
+            40.3545716
+          ],
+          [
+            116.0063308,
+            40.3545212
+          ],
+          [
+            116.0063546,
+            40.3545826
+          ]
+        ]
+      ]
+    },
+    "lat": 40.354578200000006,
+    "lng": 116.00625559999999
+  },
+  {
+    "osm_id": "way/1250479511",
+    "name": "全聚德",
+    "category": "food",
+    "tags": {
+      "amenity": "restaurant",
+      "brand": "全聚德",
+      "brand:en": "Quanjude",
+      "brand:wikidata": "Q3269017",
+      "brand:zh": "全聚德",
+      "building": "yes",
+      "cuisine": "chinese",
+      "name": "全聚德",
+      "name:en": "Quanjude",
+      "name:zh": "全聚德",
+      "id": "way/1250479511"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0112302,
+            40.352175
+          ],
+          [
+            116.0111759,
+            40.3520205
+          ],
+          [
+            116.0112897,
+            40.3519973
+          ],
+          [
+            116.011344,
+            40.3521518
+          ],
+          [
+            116.0112302,
+            40.352175
+          ]
+        ]
+      ]
+    },
+    "lat": 40.352103920000005,
+    "lng": 116.01125400000001
+  },
+  {
+    "osm_id": "node/4279915316",
+    "name": "node/4279915316",
+    "category": "food",
+    "tags": {
+      "amenity": "restaurant",
+      "id": "node/4279915316"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.01424,
+        40.3601348
+      ]
+    },
+    "lat": 40.3601348,
+    "lng": 116.01424
+  },
+  {
+    "osm_id": "node/11623812896",
+    "name": "中国兰州拉面",
+    "category": "food",
+    "tags": {
+      "amenity": "restaurant",
+      "cuisine": "noodle",
+      "name": "中国兰州拉面",
+      "id": "node/11623812896"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0114592,
+        40.3524644
+      ]
+    },
+    "lat": 40.3524644,
+    "lng": 116.0114592
+  },
+  {
+    "osm_id": "node/11623812897",
+    "name": "风味小吃",
+    "category": "food",
+    "tags": {
+      "amenity": "restaurant",
+      "name": "风味小吃",
+      "wheelchair": "no",
+      "id": "node/11623812897"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.011605,
+        40.3528223
+      ]
+    },
+    "lat": 40.3528223,
+    "lng": 116.011605
+  },
+  {
+    "osm_id": "node/11623812902",
+    "name": "老北京炸酱面快餐厅",
+    "category": "food",
+    "tags": {
+      "amenity": "restaurant",
+      "cuisine": "noodle",
+      "name": "老北京炸酱面快餐厅",
+      "id": "node/11623812902"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.011586,
+        40.3527131
+      ]
+    },
+    "lat": 40.3527131,
+    "lng": 116.011586
+  },
+  {
+    "osm_id": "way/1250479494",
+    "name": "八达岭长城（终点站）",
+    "category": "transport",
+    "tags": {
+      "bus": "yes",
+      "highway": "bus_stop",
+      "name": "八达岭长城（终点站）",
+      "name:en": "Badaling Great Wall(Terminus)",
+      "name:zh": "八达岭长城（终点站）",
+      "name:zh-Hans": "八达岭长城（终点站）",
+      "name:zh-Hant": "八達嶺長城（終點站）",
+      "public_transport": "platform",
+      "id": "way/1250479494"
+    },
+    "geom": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          116.0110025,
+          40.3508252
+        ],
+        [
+          116.0112301,
+          40.3507199
+        ]
+      ]
+    },
+    "lat": null,
+    "lng": null
+  },
+  {
+    "osm_id": "way/1250479495",
+    "name": "八达岭长城（877路发车站）",
+    "category": "transport",
+    "tags": {
+      "bus": "yes",
+      "highway": "bus_stop",
+      "name": "八达岭长城（877路发车站）",
+      "name:en": "Badaling Great Wall(Line 877 to Beijing)",
+      "name:zh": "八达岭长城（877路发车站）",
+      "name:zh-Hans": "八达岭长城（877路发车站）",
+      "name:zh-Hant": "八達嶺長城（877路發車站）",
+      "public_transport": "platform",
+      "id": "way/1250479495"
+    },
+    "geom": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          116.0105483,
+          40.3516214
+        ],
+        [
+          116.0103053,
+          40.3514432
+        ]
+      ]
+    },
+    "lat": null,
+    "lng": null
+  },
+  {
+    "osm_id": "way/1250479496",
+    "name": "八达岭长城（879路发车站）",
+    "category": "transport",
+    "tags": {
+      "bus": "yes",
+      "highway": "bus_stop",
+      "name": "八达岭长城（879路发车站）",
+      "name:en": "Badaling Great Wall(Line 879 to Ming Tombs)",
+      "name:zh": "八达岭长城（879路发车站）",
+      "name:zh-Hant": "八達嶺長城（879路發車站）",
+      "public_transport": "platform",
+      "id": "way/1250479496"
+    },
+    "geom": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          116.010126,
+          40.3512396
+        ],
+        [
+          116.0103374,
+          40.3512436
+        ]
+      ]
+    },
+    "lat": null,
+    "lng": null
+  },
+  {
+    "osm_id": "node/1412782958",
+    "name": "八达岭长城",
+    "category": "transport",
+    "tags": {
+      "bus": "yes",
+      "name": "八达岭长城",
+      "name:en": "Badaling Great Wall",
+      "name:zh": "八达岭长城",
+      "name:zh-Hans": "八达岭长城",
+      "name:zh-Hant": "八達嶺長城",
+      "public_transport": "stop_position",
+      "shelter": "yes",
+      "id": "node/1412782958"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0104665,
+        40.3514904
+      ]
+    },
+    "lat": 40.3514904,
+    "lng": 116.0104665
+  },
+  {
+    "osm_id": "node/3699965312",
+    "name": "node/3699965312",
+    "category": "transport",
+    "tags": {
+      "bus": "yes",
+      "highway": "bus_stop",
+      "public_transport": "platform",
+      "id": "node/3699965312"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0067135,
+        40.359511
+      ]
+    },
+    "lat": 40.359511,
+    "lng": 116.0067135
+  },
+  {
+    "osm_id": "node/9120096066",
+    "name": "八达岭长城（终点站）",
+    "category": "transport",
+    "tags": {
+      "bus": "yes",
+      "name": "八达岭长城（终点站）",
+      "name:en": "Badaling Great Wall(Terminus)",
+      "name:zh": "八达岭长城（终点站）",
+      "name:zh-Hans": "八达岭长城（终点站）",
+      "name:zh-Hant": "八達嶺長城（終點站）",
+      "public_transport": "stop_position",
+      "id": "node/9120096066"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0110151,
+        40.3506981
+      ]
+    },
+    "lat": 40.3506981,
+    "lng": 116.0110151
+  },
+  {
+    "osm_id": "node/10676189090",
+    "name": "八达岭长城",
+    "category": "transport",
+    "tags": {
+      "bus": "yes",
+      "name": "八达岭长城",
+      "name:en": "Badaling Great Wall",
+      "name:zh": "八达岭长城",
+      "name:zh-Hant": "八達嶺長城",
+      "public_transport": "stop_position",
+      "id": "node/10676189090"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0102399,
+        40.3513062
+      ]
+    },
+    "lat": 40.3513062,
+    "lng": 116.0102399
+  },
+  {
+    "osm_id": "node/11637207436",
+    "name": "八达岭长城",
+    "category": "transport",
+    "tags": {
+      "bus": "yes",
+      "highway": "bus_stop",
+      "name": "八达岭长城",
+      "name:en": "Badaling Great Wall",
+      "name:zh": "八达岭长城",
+      "name:zh-Hans": "八达岭长城",
+      "name:zh-Hant": "八達嶺長城",
+      "public_transport": "platform",
+      "id": "node/11637207436"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0110579,
+        40.3507817
+      ]
+    },
+    "lat": 40.3507817,
+    "lng": 116.0110579
+  },
+  {
+    "osm_id": "node/11637210521",
+    "name": "八达岭长城",
+    "category": "transport",
+    "tags": {
+      "bus": "yes",
+      "highway": "bus_stop",
+      "name": "八达岭长城",
+      "name:en": "Badaling Great Wall",
+      "name:zh": "八达岭长城",
+      "name:zh-Hant": "八達嶺長城",
+      "public_transport": "platform",
+      "id": "node/11637210521"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0102419,
+        40.3512574
+      ]
+    },
+    "lat": 40.3512574,
+    "lng": 116.0102419
+  },
+  {
+    "osm_id": "node/11637210522",
+    "name": "八达岭长城",
+    "category": "transport",
+    "tags": {
+      "bus": "yes",
+      "highway": "bus_stop",
+      "name": "八达岭长城",
+      "name:en": "Badaling Great Wall",
+      "name:zh": "八达岭长城",
+      "name:zh-Hans": "八达岭长城",
+      "name:zh-Hant": "八達嶺長城",
+      "public_transport": "platform",
+      "shelter": "yes",
+      "id": "node/11637210522"
+    },
+    "geom": {
+      "type": "Point",
+      "coordinates": [
+        116.0104448,
+        40.3515064
+      ]
+    },
+    "lat": 40.3515064,
+    "lng": 116.0104448
+  },
+  {
+    "osm_id": "way/84335778",
+    "name": "北九楼",
+    "category": "poi",
+    "tags": {
+      "building": "tower",
+      "building:material": "stone",
+      "height": "11",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "1",
+      "man_made": "tower",
+      "name": "北九楼",
+      "name:en": "9. Tower North",
+      "official_name": "延庆县 34 号敌台",
+      "ref": "9",
+      "tower:type": "defensive",
+      "id": "way/84335778"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0173471,
+            40.3576038
+          ],
+          [
+            116.0174353,
+            40.3575927
+          ],
+          [
+            116.0174462,
+            40.3576425
+          ],
+          [
+            116.0173579,
+            40.3576536
+          ],
+          [
+            116.0173471,
+            40.3576038
+          ]
+        ]
+      ]
+    },
+    "lat": 40.357619279999994,
+    "lng": 116.01738671999999
+  },
+  {
+    "osm_id": "way/89351131",
+    "name": "北一楼",
+    "category": "poi",
+    "tags": {
+      "building": "tower",
+      "building:material": "stone",
+      "height": "11",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "1",
+      "man_made": "tower",
+      "name": "北一楼",
+      "name:en": "1. Tower North",
+      "official_name": "延庆县 42 号敌台",
+      "ref": "1",
+      "tower:type": "defensive",
+      "id": "way/89351131"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0068692,
+            40.354843
+          ],
+          [
+            116.0068139,
+            40.3548196
+          ],
+          [
+            116.0067892,
+            40.3548091
+          ],
+          [
+            116.0068221,
+            40.3547638
+          ],
+          [
+            116.0068411,
+            40.3547379
+          ],
+          [
+            116.0068924,
+            40.3547596
+          ],
+          [
+            116.0069211,
+            40.3547718
+          ],
+          [
+            116.0069002,
+            40.3548005
+          ],
+          [
+            116.0068692,
+            40.354843
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35479425555556,
+    "lng": 116.0068576
+  },
+  {
+    "osm_id": "way/89351151",
+    "name": "北十二楼",
+    "category": "poi",
+    "tags": {
+      "building": "tower",
+      "building:material": "brick",
+      "height": "11",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "1",
+      "man_made": "tower",
+      "name": "北十二楼",
+      "name:en": "12. Tower North",
+      "official_name": "延庆县 31 号敌台",
+      "ref": "12",
+      "tower:type": "defensive",
+      "id": "way/89351151"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0153603,
+            40.3535367
+          ],
+          [
+            116.0153082,
+            40.3534488
+          ],
+          [
+            116.0153503,
+            40.3534343
+          ],
+          [
+            116.0153946,
+            40.3534191
+          ],
+          [
+            116.0154467,
+            40.353507
+          ],
+          [
+            116.0153855,
+            40.353528
+          ],
+          [
+            116.0153603,
+            40.3535367
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35348722857143,
+    "lng": 116.01537227142856
+  },
+  {
+    "osm_id": "way/89351154",
+    "name": "北十楼",
+    "category": "poi",
+    "tags": {
+      "building": "tower",
+      "building:material": "stone",
+      "height": "11",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "1",
+      "man_made": "tower",
+      "name": "北十楼",
+      "name:en": "10. Tower North",
+      "official_name": "延庆县 33 号敌台",
+      "ref": "10",
+      "tower:type": "defensive",
+      "id": "way/89351154"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.017819,
+            40.3575551
+          ],
+          [
+            116.0178006,
+            40.3574634
+          ],
+          [
+            116.0178157,
+            40.3574616
+          ],
+          [
+            116.0178599,
+            40.3574565
+          ],
+          [
+            116.0178881,
+            40.3574532
+          ],
+          [
+            116.0179065,
+            40.3575449
+          ],
+          [
+            116.017819,
+            40.3575551
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35749854285715,
+    "lng": 116.01784411428572
+  },
+  {
+    "osm_id": "way/89351166",
+    "name": "北三楼",
+    "category": "poi",
+    "tags": {
+      "building": "tower",
+      "building:material": "stone",
+      "height": "11",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "1",
+      "man_made": "tower",
+      "name": "北三楼",
+      "name:en": "3. Tower North",
+      "official_name": "延庆县 40 号敌台",
+      "ref": "3",
+      "tower:type": "defensive",
+      "id": "way/89351166"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0094184,
+            40.3558765
+          ],
+          [
+            116.0093811,
+            40.3558541
+          ],
+          [
+            116.0093164,
+            40.3558152
+          ],
+          [
+            116.0093424,
+            40.3557901
+          ],
+          [
+            116.0093784,
+            40.3557554
+          ],
+          [
+            116.0094472,
+            40.3557968
+          ],
+          [
+            116.0094804,
+            40.3558167
+          ],
+          [
+            116.0094483,
+            40.3558477
+          ],
+          [
+            116.0094184,
+            40.3558765
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35582544444445,
+    "lng": 116.00940344444444
+  },
+  {
+    "osm_id": "way/89351184",
+    "name": "北二楼",
+    "category": "poi",
+    "tags": {
+      "building": "tower",
+      "building:material": "stone",
+      "height": "11",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "1",
+      "man_made": "tower",
+      "name": "北二楼",
+      "name:en": "2. Tower North",
+      "official_name": "延庆县 41 号敌台",
+      "ref": "2",
+      "tower:type": "defensive",
+      "id": "way/89351184"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0080151,
+            40.3554168
+          ],
+          [
+            116.0079836,
+            40.3553964
+          ],
+          [
+            116.0079301,
+            40.3553616
+          ],
+          [
+            116.007973,
+            40.3553233
+          ],
+          [
+            116.0080003,
+            40.3552989
+          ],
+          [
+            116.0080392,
+            40.3553242
+          ],
+          [
+            116.0080853,
+            40.3553541
+          ],
+          [
+            116.0080555,
+            40.3553807
+          ],
+          [
+            116.0080151,
+            40.3554168
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35536364444445,
+    "lng": 116.0080108
+  },
+  {
+    "osm_id": "way/89369816",
+    "name": "北门锁钥",
+    "category": "poi",
+    "tags": {
+      "area": "yes",
+      "area:highway": "footway",
+      "building": "tower",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "2",
+      "man_made": "tower",
+      "name": "北门锁钥",
+      "official_name": "延庆县 43 号敌台",
+      "tower:type": "defensive",
+      "id": "way/89369816"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0064566,
+            40.3544242
+          ],
+          [
+            116.0064415,
+            40.354328
+          ],
+          [
+            116.0064367,
+            40.3542974
+          ],
+          [
+            116.0064305,
+            40.3542585
+          ],
+          [
+            116.0064518,
+            40.3542565
+          ],
+          [
+            116.0065858,
+            40.3542443
+          ],
+          [
+            116.0065956,
+            40.3543073
+          ],
+          [
+            116.0066118,
+            40.3544101
+          ],
+          [
+            116.0065054,
+            40.3544198
+          ],
+          [
+            116.0064566,
+            40.3544242
+          ]
+        ]
+      ]
+    },
+    "lat": 40.354337029999996,
+    "lng": 116.00649723000001
+  },
+  {
+    "osm_id": "way/127699409",
+    "name": "青龙桥车站",
+    "category": "poi",
+    "tags": {
+      "building": "train_station",
+      "name": "青龙桥车站",
+      "name:en": "Qinglongqiao Railway Station",
+      "name:zh": "青龙桥车站",
+      "name:zh-Hans": "青龙桥车站",
+      "name:zh-Hant": "青龍橋車站",
+      "tourism": "attraction",
+      "wikidata": "Q5963337",
+      "wikimedia_commons": "Category:Qinglongqiao Railway Station",
+      "wikipedia": "zh:青龙桥站",
+      "id": "way/127699409"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0200881,
+            40.3508565
+          ],
+          [
+            116.0202397,
+            40.3509896
+          ],
+          [
+            116.0201468,
+            40.351051
+          ],
+          [
+            116.0199952,
+            40.350918
+          ],
+          [
+            116.0200881,
+            40.3508565
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35093432,
+    "lng": 116.02011158
+  },
+  {
+    "osm_id": "way/146634069",
+    "name": "长城礼物",
+    "category": "poi",
+    "tags": {
+      "building": "yes",
+      "name": "长城礼物",
+      "shop": "gift",
+      "id": "way/146634069"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.007141,
+            40.3539326
+          ],
+          [
+            116.0072423,
+            40.3539171
+          ],
+          [
+            116.0073038,
+            40.3541515
+          ],
+          [
+            116.0072025,
+            40.3541669
+          ],
+          [
+            116.007141,
+            40.3539326
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35402014,
+    "lng": 116.00720612
+  },
+  {
+    "osm_id": "way/146634070",
+    "name": "国宾接待室",
+    "category": "poi",
+    "tags": {
+      "amenity": "conference_centre",
+      "building": "yes",
+      "name": "国宾接待室",
+      "name:en": "State Guest Lounge",
+      "id": "way/146634070"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0064933,
+            40.3536985
+          ],
+          [
+            116.0069866,
+            40.3535905
+          ],
+          [
+            116.007031,
+            40.3537083
+          ],
+          [
+            116.006942,
+            40.3537278
+          ],
+          [
+            116.006918,
+            40.3536641
+          ],
+          [
+            116.0065848,
+            40.3537369
+          ],
+          [
+            116.0066144,
+            40.3538156
+          ],
+          [
+            116.0065433,
+            40.3538312
+          ],
+          [
+            116.0064933,
+            40.3536985
+          ]
+        ]
+      ]
+    },
+    "lat": 40.353719044444446,
+    "lng": 116.00673407777779
+  },
+  {
+    "osm_id": "way/365997168",
+    "name": "旅游大巴候车亭",
+    "category": "poi",
+    "tags": {
+      "amenity": "shelter",
+      "building": "roof",
+      "layer": "1",
+      "name": "旅游大巴候车亭",
+      "shelter_type": "public_transport",
+      "id": "way/365997168"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0063898,
+            40.3594142
+          ],
+          [
+            116.0060357,
+            40.3591789
+          ],
+          [
+            116.0060756,
+            40.3591441
+          ],
+          [
+            116.0063974,
+            40.359372
+          ],
+          [
+            116.0067302,
+            40.3593925
+          ],
+          [
+            116.0067265,
+            40.3594342
+          ],
+          [
+            116.0063898,
+            40.3594142
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35933572857143,
+    "lng": 116.00639214285714
+  },
+  {
+    "osm_id": "way/478905089",
+    "name": "平胡墩",
+    "category": "poi",
+    "tags": {
+      "area": "yes",
+      "building": "yes",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "1",
+      "man_made": "tower",
+      "name": "平胡墩",
+      "name:en": "Pinghu Beacon Tower",
+      "name:zh": "平胡墩",
+      "name:zh-Hans": "平胡墩",
+      "name:zh-Hant": "平胡墩",
+      "tower:type": "defensive",
+      "id": "way/478905089"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0086117,
+            40.3562959
+          ],
+          [
+            116.0085741,
+            40.3562438
+          ],
+          [
+            116.0086372,
+            40.3562172
+          ],
+          [
+            116.0086734,
+            40.3562704
+          ],
+          [
+            116.0086117,
+            40.3562959
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35626464,
+    "lng": 116.00862162000001
+  },
+  {
+    "osm_id": "way/672695442",
+    "name": "北七楼",
+    "category": "poi",
+    "tags": {
+      "building": "tower",
+      "building:material": "stone",
+      "height": "11",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "1",
+      "man_made": "tower",
+      "name": "北七楼",
+      "name:en": "7. Tower North",
+      "official_name": "延庆县 36 号敌台",
+      "ref": "7",
+      "tower:type": "defensive",
+      "id": "way/672695442"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0135523,
+            40.3602167
+          ],
+          [
+            116.013533,
+            40.3602292
+          ],
+          [
+            116.0135095,
+            40.3602443
+          ],
+          [
+            116.0134964,
+            40.3602325
+          ],
+          [
+            116.0134613,
+            40.3602008
+          ],
+          [
+            116.0134812,
+            40.360189
+          ],
+          [
+            116.0135081,
+            40.3601732
+          ],
+          [
+            116.0135523,
+            40.3602167
+          ]
+        ]
+      ]
+    },
+    "lat": 40.3602128,
+    "lng": 116.0135117625
+  },
+  {
+    "osm_id": "way/725267259",
+    "name": "北六楼",
+    "category": "poi",
+    "tags": {
+      "building": "tower",
+      "building:material": "stone",
+      "height": "11",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "1",
+      "man_made": "tower",
+      "name": "北六楼",
+      "name:en": "6. Tower North",
+      "official_name": "延庆县 37 号敌台",
+      "ref": "6",
+      "tower:type": "defensive",
+      "id": "way/725267259"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0136022,
+            40.3596
+          ],
+          [
+            116.013607,
+            40.3595696
+          ],
+          [
+            116.0136195,
+            40.35949
+          ],
+          [
+            116.0136657,
+            40.3594942
+          ],
+          [
+            116.0137138,
+            40.3594986
+          ],
+          [
+            116.0136965,
+            40.3596086
+          ],
+          [
+            116.0136407,
+            40.3596035
+          ],
+          [
+            116.0136022,
+            40.3596
+          ]
+        ]
+      ]
+    },
+    "lat": 40.3595580625,
+    "lng": 116.01364345000002
+  },
+  {
+    "osm_id": "way/750201850",
+    "name": "八达岭长城站",
+    "category": "poi",
+    "tags": {
+      "building": "train_station",
+      "landuse": "railway",
+      "level": "0",
+      "name": "八达岭长城站",
+      "public_transport": "station",
+      "id": "way/750201850"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0044286,
+            40.357358
+          ],
+          [
+            116.0046449,
+            40.3575314
+          ],
+          [
+            116.0050988,
+            40.3578947
+          ],
+          [
+            116.0051912,
+            40.3579688
+          ],
+          [
+            116.0057221,
+            40.358394
+          ],
+          [
+            116.0053581,
+            40.3586578
+          ],
+          [
+            116.0052318,
+            40.3585566
+          ],
+          [
+            116.0050159,
+            40.3583837
+          ],
+          [
+            116.0040647,
+            40.3576218
+          ],
+          [
+            116.0044286,
+            40.357358
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35797248,
+    "lng": 116.00491847
+  },
+  {
+    "osm_id": "way/1019339215",
+    "name": "非开放区域 客运办公室",
+    "category": "poi",
+    "tags": {
+      "access": "no",
+      "building": "yes",
+      "indoor": "room",
+      "level": "2",
+      "name": "非开放区域 客运办公室",
+      "source": "https://mp.weixin.qq.com/s/Rqcgs_EGijaao2OUKQpM8g",
+      "id": "way/1019339215"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0046496,
+            40.3577537
+          ],
+          [
+            116.0045449,
+            40.3576719
+          ],
+          [
+            116.0046629,
+            40.357585
+          ],
+          [
+            116.004767,
+            40.3576671
+          ],
+          [
+            116.0050101,
+            40.3578534
+          ],
+          [
+            116.0051259,
+            40.3579446
+          ],
+          [
+            116.005005,
+            40.3580337
+          ],
+          [
+            116.0048892,
+            40.3579425
+          ],
+          [
+            116.0046496,
+            40.3577537
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35780062222222,
+    "lng": 116.00481157777777
+  },
+  {
+    "osm_id": "way/1247090113",
+    "name": "望京文化广场",
+    "category": "poi",
+    "tags": {
+      "area:highway": "footway",
+      "highway": "pedestrian",
+      "name": "望京文化广场",
+      "name:en": "Wangjing Cultural Square",
+      "place": "square",
+      "id": "way/1247090113"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0080857,
+            40.3539962
+          ],
+          [
+            116.0077572,
+            40.3540422
+          ],
+          [
+            116.0075682,
+            40.3540687
+          ],
+          [
+            116.0075446,
+            40.3540358
+          ],
+          [
+            116.0072657,
+            40.3536468
+          ],
+          [
+            116.0073551,
+            40.3535728
+          ],
+          [
+            116.0075416,
+            40.3536671
+          ],
+          [
+            116.0079335,
+            40.3536366
+          ],
+          [
+            116.0080458,
+            40.3536787
+          ],
+          [
+            116.0080933,
+            40.3537149
+          ],
+          [
+            116.0080781,
+            40.3538715
+          ],
+          [
+            116.0080857,
+            40.3539962
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35382729166667,
+    "lng": 116.00777954166666
+  },
+  {
+    "osm_id": "way/1248733382",
+    "name": "锁钥文化广场",
+    "category": "poi",
+    "tags": {
+      "area": "yes",
+      "area:highway": "footway",
+      "highway": "pedestrian",
+      "name": "锁钥文化广场",
+      "name:en": "Suoyue Cultural Square",
+      "place": "square",
+      "id": "way/1248733382"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0058758,
+            40.3544921
+          ],
+          [
+            116.0055122,
+            40.3546917
+          ],
+          [
+            116.0051609,
+            40.3548845
+          ],
+          [
+            116.00499,
+            40.3548802
+          ],
+          [
+            116.0049613,
+            40.3548795
+          ],
+          [
+            116.0048919,
+            40.3548288
+          ],
+          [
+            116.0046927,
+            40.3548232
+          ],
+          [
+            116.0046687,
+            40.3547334
+          ],
+          [
+            116.0046512,
+            40.3546677
+          ],
+          [
+            116.0058758,
+            40.3544921
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35473732,
+    "lng": 116.00512805000001
+  },
+  {
+    "osm_id": "way/1248733427",
+    "name": "居庸外镇",
+    "category": "poi",
+    "tags": {
+      "area": "yes",
+      "area:highway": "footway",
+      "building": "tower",
+      "historic": "yes",
+      "historic:civilization": "imperial_chinese",
+      "layer": "2",
+      "man_made": "tower",
+      "name": "居庸外镇",
+      "tower:type": "defensive",
+      "id": "way/1248733427"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.007396,
+            40.3543418
+          ],
+          [
+            116.0073632,
+            40.3541904
+          ],
+          [
+            116.0074659,
+            40.3541775
+          ],
+          [
+            116.0074866,
+            40.3542728
+          ],
+          [
+            116.0074987,
+            40.3543289
+          ],
+          [
+            116.007396,
+            40.3543418
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35427553333333,
+    "lng": 116.00743440000001
+  },
+  {
+    "osm_id": "way/1248733428",
+    "name": "守备署",
+    "category": "poi",
+    "tags": {
+      "building": "yes",
+      "historic": "building",
+      "name": "守备署",
+      "id": "way/1248733428"
+    },
+    "geom": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            116.0071882,
+            40.3544695
+          ],
+          [
+            116.0067052,
+            40.3545072
+          ],
+          [
+            116.0066954,
+            40.3544346
+          ],
+          [
+            116.0071784,
+            40.3543968
+          ],
+          [
+            116.0071882,
+            40.3544695
+          ]
+        ]
+      ]
+    },
+    "lat": 40.35445552,
+    "lng": 116.00699107999999
+  }
+]

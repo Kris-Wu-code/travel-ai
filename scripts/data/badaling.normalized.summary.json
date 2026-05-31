@@ -1,0 +1,15 @@
+{
+  "totalFeatures": 521,
+  "extracted": 64,
+  "byCategory": {
+    "entrance": 27,
+    "ticket": 5,
+    "museum": 1,
+    "viewpoint": 3,
+    "toilet": 8,
+    "food": 7,
+    "parking": 0,
+    "transport": 10,
+    "poi": 176
+  }
+}

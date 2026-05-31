@@ -43,7 +43,9 @@ export default function DiaryContent() {
   const [scenes, setScenes] = useState<SceneRecord[]>([])
   const [selectedSceneId, setSelectedSceneId] = useState('')
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
-  const [viewMode, setViewMode] = useState<'published' | 'draft' | 'archived'>('published')
+  const urlView = (searchParams.get('view') || 'published') as 'published' | 'draft' | 'archived'
+  const mineOnly = searchParams.get('mine') === '1'
+  const [viewMode, setViewMode] = useState<'published' | 'draft' | 'archived'>(urlView === 'draft' ? 'draft' : urlView === 'archived' ? 'archived' : 'published')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPublished, setTotalPublished] = useState(0)
   const [sortMode, setSortMode] = useState<PublishedSortMode>('hot')
@@ -163,6 +165,10 @@ export default function DiaryContent() {
         if (selectedSceneId) {
           countQuery = countQuery.eq('scene_id', selectedSceneId)
         }
+        if (mineOnly && currentUserId) {
+          countQuery = countQuery.eq('user_id', currentUserId)
+          query = query.eq('user_id', currentUserId)
+        }
 
         const { count, error: countError } = await countQuery
         if (countError) {
@@ -222,7 +228,7 @@ export default function DiaryContent() {
             .in('user_id', userIds)
 
           const nextAuthorNames: Record<string, string> = {}
-          for (const row of profileRows ?? []) {
+          for (const row of (profileRows ?? []) as any[]) {
             nextAuthorNames[row.user_id] = row.display_name ?? '匿名'
           }
           setAuthorNames(nextAuthorNames)
@@ -247,7 +253,7 @@ export default function DiaryContent() {
             }
 
             const rowsByDiary: Record<string, number[]> = {}
-            for (const row of reviewRows ?? []) {
+            for (const row of (reviewRows ?? []) as any[]) {
               if (!rowsByDiary[row.diary_id]) {
                 rowsByDiary[row.diary_id] = []
               }
@@ -489,7 +495,7 @@ export default function DiaryContent() {
     setRestoringDiaryId(diaryId)
     setActionMessage(null)
 
-    const { error: restoreError } = await supabase
+    const { error: restoreError } = await (supabase as any)
       .from('diaries')
       .update({ status: 'draft' })
       .eq('id', diaryId)
@@ -527,7 +533,7 @@ export default function DiaryContent() {
         return
       }
 
-      setBookmarkedDiaryIds(new Set((data ?? []).map(row => row.target_id)))
+      setBookmarkedDiaryIds(new Set((data ?? []).map((row: any) => row.target_id)))
     }
 
     loadBookmarkState()
@@ -572,7 +578,7 @@ export default function DiaryContent() {
       return
     }
 
-    const { error: insertError } = await supabase
+    const { error: insertError } = await (supabase as any)
       .from('bookmarks')
       .upsert(
         {
@@ -604,7 +610,7 @@ export default function DiaryContent() {
 
   return (
     <PageShell
-      backHref="/dashboard"
+      backHref="/"
       title="旅游日记"
       subtitle="发现精彩旅行故事"
       actions={(
@@ -656,6 +662,23 @@ export default function DiaryContent() {
           )}
         </div>
 
+        {/* Search bar - always visible */}
+        <div style={s.searchBox}>
+          <div style={s.searchInputRow}>
+            <input
+              id="diary-main-search"
+              style={s.searchInput}
+              value={searchTerm}
+              onChange={event => setSearchTerm(event.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') setDebouncedSearchTerm(searchTerm.trim()) }}
+              placeholder="🔍 搜索日记标题、地点或内容..."
+            />
+            {searchTerm ? (
+              <button type="button" style={s.clearBtn} onClick={() => { setSearchTerm(''); setDebouncedSearchTerm('') }}>✕</button>
+            ) : null}
+          </div>
+        </div>
+
         <div style={s.modeRow}>
           <button
             style={viewMode === 'published' ? s.modeBtnActive : s.modeBtn}
@@ -669,47 +692,10 @@ export default function DiaryContent() {
           >
             我的草稿
           </button>
-          <button
-            style={viewMode === 'archived' ? s.modeBtnActive : s.modeBtn}
-            onClick={() => setViewMode('archived')}
-          >
-            已归档
-          </button>
         </div>
 
         {viewMode === 'published' ? (
           <div style={s.toolbarRow}>
-            <div style={s.searchBox}>
-              <label style={s.searchLabel} htmlFor="diary-search-input">
-                搜索
-              </label>
-              <div style={s.searchInputRow}>
-                <input
-                  id="diary-search-input"
-                  style={s.searchInput}
-                  value={searchTerm}
-                  onChange={event => setSearchTerm(event.target.value)}
-                  placeholder="标题、目的地或正文关键词"
-                />
-                <button
-                  style={s.searchBtn}
-                  onClick={() => setDebouncedSearchTerm(searchTerm.trim())}
-                >
-                  搜索
-                </button>
-              </div>
-              {searchTerm ? (
-                <button
-                  style={s.clearSearchBtn}
-                  onClick={() => {
-                    setSearchTerm('')
-                    setDebouncedSearchTerm('')
-                  }}
-                >
-                  清空搜索
-                </button>
-              ) : null}
-            </div>
             <div style={s.sortBox}>
               <label style={s.sortLabel} htmlFor="diary-sort-mode">
                 排序方式
@@ -850,6 +836,7 @@ export default function DiaryContent() {
                     </button>
                   ) : null}
                   <span>👁 {diary.view_count}</span>
+                  <span>🔥 {diary.hot_score}</span>
                   {viewMode === 'published' ? (
                     ratingSummaries[diary.id]?.averageRating !== null ? (
                       <span>
@@ -970,6 +957,7 @@ const s: Record<string, React.CSSProperties> = {
     display: 'flex',
     flexDirection: 'column',
     gap: '6px',
+    marginBottom: '14px',
   },
   sortBox: {
     flex: '0 0 auto',

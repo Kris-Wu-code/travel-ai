@@ -6,6 +6,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { AmapSync } from '@/lib/amap-sync'
 
+function getAmapServiceKey(): string {
+  return (process.env.AMAP_SERVICE_KEY || process.env.AMAP_API_KEY || '').trim()
+}
+
 // 验证认证 header
 function validateAuth(request: NextRequest): boolean {
   const authHeader = request.headers.get('authorization') ?? request.headers.get('Authorization')
@@ -33,11 +37,11 @@ export async function POST(request: NextRequest) {
   const requiredEnvVars = [
     'NEXT_PUBLIC_SUPABASE_URL',
     'SUPABASE_SERVICE_ROLE_KEY',
-    'AMAP_API_KEY',
+    'AMAP_SERVICE_KEY',
   ]
 
   for (const envVar of requiredEnvVars) {
-    if (!process.env[envVar]) {
+    if (!process.env[envVar] && !(envVar === 'AMAP_SERVICE_KEY' && getAmapServiceKey())) {
       return NextResponse.json(
         { error: `Missing environment variable: ${envVar}` },
         { status: 500 }
@@ -52,7 +56,7 @@ export async function POST(request: NextRequest) {
     const sync = new AmapSync(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      process.env.AMAP_API_KEY!,
+      getAmapServiceKey(),
       {
         maxRetries: parseInt(process.env.AMAP_MAX_RETRIES || '3', 10),
         retryDelayMs: parseInt(process.env.AMAP_RETRY_DELAY_MS || '1000', 10),

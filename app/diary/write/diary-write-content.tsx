@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import buildHuffman from '../../lib/algo/compress/buildHuffman'
 import { useRouter, useSearchParams } from 'next/navigation'
 import PageShell from '../../components/page-shell'
 import { supabase } from '../../lib/supabase'
@@ -38,11 +39,33 @@ export default function DiaryWriteContent() {
   const [scenePreview, setScenePreview] = useState<ScenePreview | null>(null)
   const [editableStatus, setEditableStatus] = useState<'published' | 'draft' | 'archived' | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [allScenes, setAllScenes] = useState<ScenePreview[]>([])
+  const [sceneSearch, setSceneSearch] = useState('')
+  const [sceneDropdown, setSceneDropdown] = useState(false)
   const DRAFT_KEY = 'travel-ai:diary-write-draft'
   const [loginPromptOpen, setLoginPromptOpen] = useState(false)
   const [loginNextUrl, setLoginNextUrl] = useState('')
   const [loginPromptTitle, setLoginPromptTitle] = useState('')
   const [loginPromptDescription, setLoginPromptDescription] = useState('')
+
+  // Load all scenes for the selector
+  useEffect(() => {
+    supabase.from('scenes').select('id, name, scene_type, city, description, available_transports')
+      .eq('status', 'active').order('city').limit(1000)
+      .then(({ data }) => { if (data) setAllScenes(data as ScenePreview[]) })
+  }, [])
+
+  const filteredScenes = sceneSearch.trim()
+    ? allScenes.filter(s => `${s.name} ${s.city || ''}`.toLowerCase().includes(sceneSearch.toLowerCase())).slice(0, 15)
+    : allScenes.slice(0, 15)
+
+  function handleSelectScene(scene: ScenePreview) {
+    setSceneId(scene.id)
+    setLocationTag(buildSceneLocationTag(scene))
+    setScenePreview(scene)
+    setSceneSearch('')
+    setSceneDropdown(false)
+  }
 
   function buildSceneLocationTag(scene: ScenePreview) {
     return scene.city ? `${scene.city} · ${scene.name}` : scene.name
@@ -219,19 +242,78 @@ export default function DiaryWriteContent() {
 
     const rawSize = new TextEncoder().encode(content).length
 
+      // compute Huffman compression (client-side); fall back if algo fails
+      let contentCompressedBase64: string | null = null
+      let compressedSizeBytes: number | null = rawSize > 0 ? rawSize : null
+      let compressionAlgo = 'none'
+      let huffmanLayoutToSave: any = null
+      let huffmanCodeMapToSave: any = null
+
+      if (rawSize > 0) {
+        try {
+          const build = buildHuffman(content, 'char')
+          
+          // Skip if text is tiny (<20 chars) or compression is negligible (≤3% savings)
+          const savingsRatio = 1 - build.summary.compressedBytes / build.summary.rawBytes
+          const isWorthCompressing = content.length >= 20 && savingsRatio > 0.03
+
+          console.log('[Huffman] Compression analysis:', {
+            contentLength: content.length,
+            rawBytes: build.summary.rawBytes,
+            compressedBytes: build.summary.compressedBytes,
+            savingsRatio: (savingsRatio * 100).toFixed(1) + '%',
+            isWorthCompressing,
+            reason: !isWorthCompressing
+              ? content.length < 20
+                ? 'Text too small (<20 chars)'
+                : 'Poor compression (<3% savings)'
+              : 'Compression applied',
+          })
+          
+          if (isWorthCompressing) {
+            // convert bit string to bytes
+            const bits = build.encodedText || ''
+            const bytesLen = Math.ceil(bits.length / 8)
+            const bytes = new Uint8Array(bytesLen)
+            for (let i = 0; i < bytesLen; i++) {
+              const byteBits = bits.slice(i * 8, i * 8 + 8).padEnd(8, '0')
+              bytes[i] = parseInt(byteBits, 2)
+            }
+            // base64 encode
+            let binary = ''
+            for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i])
+            contentCompressedBase64 = typeof btoa !== 'undefined' ? btoa(binary) : Buffer.from(bytes).toString('base64')
+            compressedSizeBytes = build.summary.compressedBytes
+            compressionAlgo = 'huffman'
+            // persist layout and codeMap as JSON-ready structures
+            huffmanLayoutToSave = build.layout
+            huffmanCodeMapToSave = build.codeMap
+          }
+        } catch (e) {
+          // ignore compression errors and proceed with saving raw
+          console.warn('[Huffman] Compression failed:', e)
+          contentCompressedBase64 = null
+          compressedSizeBytes = rawSize > 0 ? rawSize : null
+          compressionAlgo = 'none'
+        }
+      }
+
     let savedDiaryId = editDiaryId
 
     if (editDiaryId) {
       const { error } = await supabase
         .from('diaries')
-        .update({
+          .update({
           scene_id: sceneId || null,
           title: title.trim(),
           location_tag: locationTag.trim() || null,
           content_raw: content.trim() || null,
+          content_compressed: contentCompressedBase64,
           raw_size: rawSize > 0 ? rawSize : null,
-          compressed_size: rawSize > 0 ? rawSize : null,
-          compression_algo: 'none',
+          compressed_size: compressedSizeBytes,
+          compression_algo: compressionAlgo,
+          huffman_layout: huffmanLayoutToSave ?? null,
+          huffman_code_map: huffmanCodeMapToSave ?? null,
           status,
         })
         .eq('id', editDiaryId)
@@ -252,9 +334,12 @@ export default function DiaryWriteContent() {
           title: title.trim(),
           location_tag: locationTag.trim() || null,
           content_raw: content.trim() || null,
+          content_compressed: contentCompressedBase64,
           raw_size: rawSize > 0 ? rawSize : null,
-          compressed_size: rawSize > 0 ? rawSize : null,
-          compression_algo: 'none',
+          compressed_size: compressedSizeBytes,
+          compression_algo: compressionAlgo,
+          huffman_layout: huffmanLayoutToSave ?? null,
+          huffman_code_map: huffmanCodeMapToSave ?? null,
           status,
         })
         .select('id')
@@ -373,13 +458,33 @@ export default function DiaryWriteContent() {
           </div>
 
           <div style={styles.field}>
-            <label style={styles.label}>目的地标签</label>
-            <input
-              style={styles.input}
-              placeholder={scenePreview ? buildSceneLocationTag(scenePreview) : '例如：北京·故宫'}
-              value={locationTag}
-              onChange={event => setLocationTag(event.target.value)}
-            />
+            <label style={styles.label}>关联景区</label>
+            <div style={{ position: 'relative' }}>
+              <input
+                style={styles.input}
+                placeholder="搜索并选择景区..."
+                value={sceneSearch}
+                onFocus={() => setSceneDropdown(true)}
+                onBlur={() => setTimeout(() => setSceneDropdown(false), 200)}
+                onChange={e => { setSceneSearch(e.target.value); setSceneDropdown(true) }}
+              />
+              {sceneDropdown && filteredScenes.length > 0 ? (
+                <div style={styles.dd}>
+                  {filteredScenes.map(s => (
+                    <button key={s.id} type="button" style={s.id === sceneId ? styles.ddItemActive : styles.ddItem}
+                      onMouseDown={() => handleSelectScene(s)}>
+                      <div style={styles.ddName}>{s.name}</div>
+                      <div style={styles.ddMeta}>{s.city || '未知'} · {getSceneTypeLabel(s.scene_type)}</div>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+            {scenePreview ? (
+              <div style={{ marginTop: '8px', fontSize: '13px', color: '#059669', fontWeight: 500 }}>
+                ✅ {scenePreview.name} · {getSceneTypeLabel(scenePreview.scene_type)} · {scenePreview.city ?? ''}
+              </div>
+            ) : null}
           </div>
 
           <div style={styles.field}>
@@ -430,7 +535,7 @@ export default function DiaryWriteContent() {
             ) : null}
           </div>
 
-          <p style={styles.hint}>后续这里会接入 Huffman 压缩、图片上传和 AIGC 动画生成。</p>
+          <p style={styles.hint}>正文超过 20 字将自动使用 Huffman 压缩存储，节省空间。</p>
         </div>
       </div>
     </PageShell>
@@ -473,13 +578,14 @@ const styles: Record<string, React.CSSProperties> = {
     color: '#374151',
   },
   input: {
-    width: '100%',
-    padding: '12px 14px',
-    border: '1px solid #e5e7eb',
-    borderRadius: '10px',
-    fontSize: '15px',
-    boxSizing: 'border-box',
+    width: '100%', padding: '12px 14px', border: '1px solid #e5e7eb',
+    borderRadius: '10px', fontSize: '15px', boxSizing: 'border-box',
   },
+  dd: { position: 'absolute', left: 0, right: 0, top: '100%', marginTop: '4px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: '0 12px 32px rgba(0,0,0,0.12)', zIndex: 50, maxHeight: '320px', overflow: 'auto' },
+  ddItem: { display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', border: 'none', background: '#fff', cursor: 'pointer', borderBottom: '1px solid #f3f4f6' },
+  ddItemActive: { display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', border: 'none', background: '#eef2ff', cursor: 'pointer', borderBottom: '1px solid #f3f4f6' },
+  ddName: { fontSize: '14px', fontWeight: 600, color: '#111827' },
+  ddMeta: { fontSize: '12px', color: '#6b7280', marginTop: '2px' },
   textarea: {
     width: '100%',
     minHeight: '260px',

@@ -14,6 +14,7 @@ type ProfileRow = {
   group_type: string | null
   preferences: {
     taboos?: string[]
+    travel_pace?: string
     profile_avatar_url?: string
     profile_intro?: string
   } | null
@@ -86,6 +87,12 @@ const GROUP_LABELS: Record<string, string> = {
   group: '朋友结伴',
 }
 
+const PACE_LABELS: Record<string, string> = {
+  slow: '轻松慢游',
+  moderate: '适度节奏',
+  packed: '紧凑充实',
+}
+
 const TABOO_LABELS: Record<string, string> = {
   no_spicy: '不吃辣',
   no_seafood: '不吃海鲜',
@@ -114,6 +121,8 @@ export default function ProfilePage() {
     archived: 0,
   })
   const [bookmarkCount, setBookmarkCount] = useState(0)
+  const [wishlistScenes, setWishlistScenes] = useState<{id: string; name: string; city: string | null; center_lat: number | null; center_lng: number | null}[]>([])
+  const [wishlistCount, setWishlistCount] = useState(0)
   const [recentDiaries, setRecentDiaries] = useState<RecentDiary[]>([])
   const [favoriteDiaries, setFavoriteDiaries] = useState<FavoriteDiary[]>([])
   const [recentScenes, setRecentScenes] = useState<SceneLite[]>([])
@@ -121,6 +130,7 @@ export default function ProfilePage() {
   const [sectionErrors, setSectionErrors] = useState<SectionErrors>({})
   const [refreshTick, setRefreshTick] = useState(0)
   const [error, setError] = useState<string | null>(null)
+  const [itineraryHistory, setItineraryHistory] = useState<{id: string; destination: string; days: number; created_at: string}[]>([])
 
   useEffect(() => {
     async function loadProfilePage() {
@@ -148,7 +158,7 @@ export default function ProfilePage() {
           .from('diaries')
           .select('status, count:id')
           .eq('user_id', user.id)
-          .returns<DiaryStatRow[]>(),
+          .returns(),
         supabase
           .from('bookmarks')
           .select('id', { count: 'exact', head: true })
@@ -200,7 +210,7 @@ export default function ProfilePage() {
       const nextRecentDiaries = (recentDiaryResult.data ?? []) as RecentDiary[]
       setRecentDiaries(nextRecentDiaries)
 
-      const [favoriteRowsResult, recentReviewRowsResult, sceneVisitRowsResult] = await Promise.all([
+      const [favoriteRowsResult, recentReviewRowsResult, sceneVisitRowsResult, wishlistResult] = await Promise.all([
         supabase
           .from('bookmarks')
           .select('target_id, created_at')
@@ -220,6 +230,12 @@ export default function ProfilePage() {
           .eq('user_id', user.id)
           .order('last_visited_at', { ascending: false })
           .limit(8),
+        supabase
+          .from('bookmarks')
+          .select('id, target_id')
+          .eq('user_id', user.id)
+          .eq('target_type', 'wishlist')
+          .order('created_at', { ascending: false }),
       ])
 
       if (favoriteRowsResult.error) {
@@ -234,10 +250,10 @@ export default function ProfilePage() {
         nextSectionErrors.recentScenes = `场景访问记录加载失败：${sceneVisitRowsResult.error.message}`
       }
 
-      const favoriteDiaryIds = Array.from(new Set((favoriteRowsResult.data ?? []).map(row => row.target_id).filter(Boolean)))
-      const reviewDiaryIds = Array.from(new Set((recentReviewRowsResult.data ?? []).map(row => row.diary_id).filter(Boolean)))
+      const favoriteDiaryIds = Array.from(new Set((favoriteRowsResult.data ?? []).map((row: any) => row.target_id).filter(Boolean)))
+      const reviewDiaryIds = Array.from(new Set((recentReviewRowsResult.data ?? []).map((row: any) => row.diary_id).filter(Boolean)))
       const sceneVisitRows = (sceneVisitRowsResult.data ?? []) as SceneVisitRow[]
-      const sceneIds = Array.from(new Set(sceneVisitRows.map(row => row.scene_id).filter(Boolean)))
+      const sceneIds = Array.from(new Set(sceneVisitRows.map((row: any) => row.scene_id).filter(Boolean)))
       const relatedDiaryIds = Array.from(new Set([...favoriteDiaryIds, ...reviewDiaryIds]))
 
       const [relatedDiaryResult, sceneResult] = await Promise.all([
@@ -268,13 +284,13 @@ export default function ProfilePage() {
         nextSectionErrors.recentScenes = `场景详情加载失败：${sceneResult.error.message}`
       }
 
-      const favoriteDiaryMap = new Map((relatedDiaryResult.data ?? []).map(item => [item.id, item]))
-      const reviewedDiaryMap = new Map((relatedDiaryResult.data ?? []).map(item => [item.id, item.title]))
-      const sceneMap = new Map((sceneResult.data ?? []).map(item => [item.id, item]))
+      const favoriteDiaryMap = new Map((relatedDiaryResult.data ?? []).map((item: any) => [item.id, item]))
+      const reviewedDiaryMap = new Map((relatedDiaryResult.data ?? []).map((item: any) => [item.id, item]))
+      const sceneMap = new Map((sceneResult.data ?? []).map((item: any) => [item.id, item]))
 
       const nextFavoriteDiaries: FavoriteDiary[] = []
-      for (const row of favoriteRowsResult.data ?? []) {
-        const matched = favoriteDiaryMap.get(row.target_id)
+      for (const row of (favoriteRowsResult.data ?? []) as any[]) {
+        const matched: any = favoriteDiaryMap.get(row.target_id)
         if (!matched) {
           continue
         }
@@ -289,8 +305,8 @@ export default function ProfilePage() {
       }
 
       const nextRecentReviews: RecentReview[] = []
-      for (const row of recentReviewRowsResult.data ?? []) {
-        const relatedDiary = favoriteDiaryMap.get(row.diary_id)
+      for (const row of (recentReviewRowsResult.data ?? []) as any[]) {
+        const relatedDiary: any = reviewedDiaryMap.get(row.diary_id)
         if (!relatedDiary) {
           continue
         }
@@ -305,8 +321,8 @@ export default function ProfilePage() {
       }
 
       const nextRecentScenes: SceneLite[] = []
-      for (const visit of sceneVisitRows) {
-        const scene = sceneMap.get(visit.scene_id)
+      for (const visit of (sceneVisitRows as any[])) {
+        const scene: any = sceneMap.get(visit.scene_id)
         if (!scene) {
           continue
         }
@@ -319,6 +335,19 @@ export default function ProfilePage() {
           break
         }
       }
+
+      // Process wishlist
+      const wishSceneIds = (wishlistResult.data ?? []).map((r: any) => r.target_id).filter(Boolean)
+      setWishlistCount(wishSceneIds.length)
+      if (wishSceneIds.length > 0) {
+        const { data: wishScenes } = await supabase.from('scenes').select('id, name, city, center_lat, center_lng').in('id', wishSceneIds)
+        setWishlistScenes((wishScenes ?? []) as any[])
+      }
+
+      // Load itinerary history
+      supabase.from('generated_itineraries').select('id, destination, days, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(8).then(({ data: history }) => {
+        if (history) setItineraryHistory(history as any[])
+      })
 
       setFavoriteDiaries(nextFavoriteDiaries)
       setRecentReviews(nextRecentReviews)
@@ -417,7 +446,7 @@ export default function ProfilePage() {
 
   return (
     <PageShell
-      backHref="/dashboard"
+      backHref="/"
       title="个人主页"
       subtitle="查看你的旅行偏好、日记与收藏"
       actions={(
@@ -458,6 +487,7 @@ export default function ProfilePage() {
                 <div style={styles.metaRow}>
                   <span style={styles.badge}>最近更新：{profile?.updated_at ? formatDate(profile.updated_at) : '暂无'}</span>
                   <span style={styles.badge}>日记 {diaryStats.published}</span>
+                  <span style={styles.badge}>想去 {wishlistCount}</span>
                   <span style={styles.badge}>收藏 {bookmarkCount}</span>
                 </div>
               </div>
@@ -468,28 +498,29 @@ export default function ProfilePage() {
               <button style={styles.secondaryBtn} onClick={() => router.push('/profile/edit')}>编辑资料</button>
               <button style={styles.secondaryBtn} onClick={() => router.push('/scenes')}>去选场景</button>
               <button style={styles.secondaryBtn} onClick={() => router.push('/onboarding')}>更新偏好问卷</button>
+              <button style={styles.secondaryBtn} onClick={() => router.push('/stats')}>📊 旅行统计</button>
               <button style={styles.secondaryBtn} onClick={handleRefresh}>刷新数据</button>
             </div>
 
             {sectionErrors.overview ? <div style={styles.warningText}>{sectionErrors.overview}</div> : null}
 
             <div style={styles.statsGrid}>
-              <div style={styles.statCard}>
+              <button style={styles.statCardBtn} onClick={() => router.push('/diary?view=published&mine=1')}>
                 <div style={styles.statValue}>{diaryStats.published}</div>
                 <div style={styles.statLabel}>已发布日记</div>
-              </div>
-              <div style={styles.statCard}>
+              </button>
+              <button style={styles.statCardBtn} onClick={() => router.push('/diary?view=draft&mine=1')}>
                 <div style={styles.statValue}>{diaryStats.draft}</div>
                 <div style={styles.statLabel}>草稿</div>
-              </div>
-              <div style={styles.statCard}>
-                <div style={styles.statValue}>{diaryStats.archived}</div>
-                <div style={styles.statLabel}>已归档</div>
-              </div>
-              <div style={styles.statCard}>
+              </button>
+              <button style={styles.statCardBtn} onClick={() => { const el = document.getElementById('wishlist-section'); el?.scrollIntoView({ behavior: 'smooth' }) }}>
+                <div style={styles.statValue}>{wishlistCount}</div>
+                <div style={styles.statLabel}>想去</div>
+              </button>
+              <button style={styles.statCardBtn} onClick={() => { const el = document.getElementById('bookmark-section'); el?.scrollIntoView({ behavior: 'smooth' }) }}>
                 <div style={styles.statValue}>{bookmarkCount}</div>
                 <div style={styles.statLabel}>日记收藏</div>
-              </div>
+              </button>
             </div>
 
             <div style={styles.grid}>
@@ -504,6 +535,10 @@ export default function ProfilePage() {
                 <div style={styles.sectionRow}>
                   <span style={styles.sectionLabel}>预算</span>
                   <span style={styles.valueText}>{profile?.budget_level ? BUDGET_LABELS[profile.budget_level] : '未填写'}</span>
+                </div>
+                <div style={styles.sectionRow}>
+                  <span style={styles.sectionLabel}>旅行节奏</span>
+                  <span style={styles.valueText}>{profile?.preferences?.travel_pace ? PACE_LABELS[profile.preferences.travel_pace] : '未填写'}</span>
                 </div>
                 <div style={styles.sectionRow}>
                   <span style={styles.sectionLabel}>同行人群</span>
@@ -543,7 +578,39 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <div style={styles.card}>
+              <div style={styles.card} id="wishlist-section">
+                <div style={styles.cardTitle}>想去的地方</div>
+                {/* Wishlist map */}
+                {(() => {
+                  const coords = wishlistScenes.filter(s => s.center_lat && s.center_lng).slice(0, 30)
+                  if (coords.length > 0) {
+                    const markers = coords.map(s => `mid,0xFF6600,A:${s.center_lng},${s.center_lat}`).join(';')
+                    const mapUrl = `https://restapi.amap.com/v3/staticmap?markers=${encodeURIComponent(markers)}&size=800*280&key=661757d364c5bca839b4dae6d158709c&scale=2`
+                    return (
+                      <div style={{ marginBottom: '16px', borderRadius: '12px', overflow: 'hidden' }}>
+                        <img src={mapUrl} alt="想去的地方分布"
+                          style={{ width: '100%', display: 'block' }}
+                          onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                        />
+                      </div>
+                    )
+                  }
+                  return null
+                })()}
+                <div style={styles.list}>
+                  {wishlistScenes.length > 0 ? wishlistScenes.slice(0, 6).map(scene => (
+                    <button key={scene.id} style={styles.listItem} onClick={() => router.push(`/scenes/${scene.id}`)}>
+                      <div style={styles.listMain}>
+                        <div style={styles.listTitle}>{scene.name}</div>
+                        <div style={styles.listMeta}>{scene.city ?? '未填写城市'}</div>
+                      </div>
+                      <span style={styles.statusDraft}>去看看</span>
+                    </button>
+                  )) : <div style={styles.emptyText}>还没有标记想去的景区</div>}
+                </div>
+              </div>
+
+              <div style={styles.card} id="bookmark-section">
                 <div style={styles.cardTitle}>我的收藏</div>
                 <div style={styles.list}>
                   {sectionErrors.favorites ? (
@@ -574,6 +641,21 @@ export default function ProfilePage() {
                       <span style={styles.statusDraft}>去看看</span>
                     </button>
                   )) : <div style={styles.emptyText}>还没有场景访问记录</div>}
+                </div>
+              </div>
+
+              <div style={styles.card}>
+                <div style={styles.cardTitle}>AI 行程记录</div>
+                <div style={styles.list}>
+                  {itineraryHistory.length > 0 ? itineraryHistory.map(item => (
+                    <button key={item.id} style={styles.listItem} onClick={() => router.push(`/itinerary?dest=${encodeURIComponent(item.destination)}`)}>
+                      <div style={styles.listMain}>
+                        <div style={styles.listTitle}>{item.destination} · {item.days} 天</div>
+                        <div style={styles.listMeta}>{formatRelativeTime(item.created_at)}生成</div>
+                      </div>
+                      <span style={styles.statusPub}>查看</span>
+                    </button>
+                  )) : <div style={styles.emptyText}>还没有生成过 AI 行程</div>}
                 </div>
               </div>
 
@@ -763,6 +845,13 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: '16px',
     padding: '20px',
     boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+  },
+  statCardBtn: {
+    background: '#fff', border: 'none',
+    borderRadius: '16px', padding: '20px',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+    cursor: 'pointer', textAlign: 'left',
+    transition: 'box-shadow 0.2s',
   },
   statValue: {
     fontSize: '28px',

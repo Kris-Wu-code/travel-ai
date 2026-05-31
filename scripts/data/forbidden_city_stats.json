@@ -1,0 +1,406 @@
+{
+  "totalFeatures": 2949,
+  "buildings": {
+    "total": 1559,
+    "kinds": {
+      "hospital": 3,
+      "yes": 1378,
+      "wall": 153,
+      "church": 1,
+      "hotel": 1,
+      "school": 2,
+      "house": 11,
+      "transportation": 3,
+      "roof": 2,
+      "ruins": 2,
+      "commercial": 3
+    }
+  },
+  "facilities": {
+    "total": 301,
+    "kinds": {
+      "tourism:hotel": 17,
+      "historic:palace": 9,
+      "amenity:shelter": 1,
+      "historic:city_gate": 36,
+      "historic:temple": 3,
+      "historic:yes": 28,
+      "amenity:toilets": 24,
+      "shop:gift": 11,
+      "tourism:museum": 6,
+      "amenity:place_of_worship": 3,
+      "shop:mall": 3,
+      "amenity:public_building": 2,
+      "amenity:theatre": 6,
+      "shop:ticket": 3,
+      "amenity:arts_centre": 1,
+      "shop:books": 5,
+      "shop:convenience": 9,
+      "tourism:attraction": 10,
+      "amenity:cafe": 17,
+      "amenity:restaurant": 44,
+      "shop:electronics": 1,
+      "tourism:hostel": 2,
+      "amenity:bank": 5,
+      "historic:memorial": 2,
+      "amenity:atm": 3,
+      "amenity:fast_food": 4,
+      "amenity:bar": 1,
+      "shop:greengrocer": 1,
+      "amenity:internet_cafe": 1,
+      "tourism:viewpoint": 3,
+      "shop:massage": 2,
+      "shop:variety_store": 2,
+      "shop:shoes": 1,
+      "tourism:artwork": 8,
+      "tourism:information": 3,
+      "amenity:post_box": 1,
+      "shop:toys": 1,
+      "shop:clothes": 3,
+      "amenity:pharmacy": 1,
+      "shop:jewelry": 4,
+      "amenity:post_office": 2,
+      "leisure:fitness_centre": 1,
+      "amenity:police": 1,
+      "shop:supermarket": 4,
+      "amenity:bench": 1,
+      "amenity:waste_basket": 2,
+      "shop:mobile_phone": 1,
+      "amenity:ice_cream": 1,
+      "amenity:vending_machine": 1
+    }
+  },
+  "roads": {
+    "total": 1178,
+    "kinds": {
+      "pedestrian": 278,
+      "tertiary": 9,
+      "service": 69,
+      "primary": 12,
+      "residential": 42,
+      "unclassified": 18,
+      "secondary": 10,
+      "steps": 151,
+      "footway": 561,
+      "cycleway": 9,
+      "path": 16,
+      "living_street": 2,
+      "primary_link": 1
+    }
+  },
+  "indoor": {
+    "total": 16,
+    "kinds": {
+      "entrance:yes": 15,
+      "level:6": 1
+    }
+  },
+  "samples": {
+    "buildings": [
+      {
+        "name": "relation/3464247",
+        "building": "hospital",
+        "id": "relation/3464247"
+      },
+      {
+        "name": "世纪大厦",
+        "building": "yes",
+        "id": "relation/3531185"
+      },
+      {
+        "name": "华侨大厦",
+        "building": "yes",
+        "id": "relation/3588117"
+      },
+      {
+        "name": "relation/6239764",
+        "building": "yes",
+        "id": "relation/6239764"
+      },
+      {
+        "name": "relation/6239765",
+        "building": "yes",
+        "id": "relation/6239765"
+      },
+      {
+        "name": "relation/8854306",
+        "building": "yes",
+        "id": "relation/8854306"
+      },
+      {
+        "name": "中和殿",
+        "building": "yes",
+        "id": "relation/8854349"
+      },
+      {
+        "name": "relation/8861194",
+        "building": "yes",
+        "id": "relation/8861194"
+      },
+      {
+        "name": "东门",
+        "building": "yes",
+        "id": "way/26390175"
+      },
+      {
+        "name": "万春亭",
+        "building": "yes",
+        "id": "way/26390235"
+      },
+      {
+        "name": "绮望楼",
+        "building": "yes",
+        "id": "way/26390236"
+      },
+      {
+        "name": "南门",
+        "building": "yes",
+        "id": "way/26390237"
+      },
+      {
+        "name": "东华门",
+        "building": "yes",
+        "id": "way/40343947"
+      },
+      {
+        "name": "銮驾库",
+        "building": "yes",
+        "id": "way/40478517"
+      },
+      {
+        "name": "way/40478518",
+        "building": "yes",
+        "id": "way/40478518"
+      },
+      {
+        "name": "way/40478519",
+        "building": "yes",
+        "id": "way/40478519"
+      },
+      {
+        "name": "红本库",
+        "building": "yes",
+        "id": "way/40478520"
+      },
+      {
+        "name": "实录库",
+        "building": "yes",
+        "id": "way/40478521"
+      },
+      {
+        "name": "way/40478522",
+        "building": "yes",
+        "id": "way/40478522"
+      },
+      {
+        "name": "way/40478523",
+        "building": "yes",
+        "id": "way/40478523"
+      }
+    ],
+    "facilities": [
+      {
+        "name": "华侨大厦",
+        "kind": "tourism:hotel",
+        "id": "relation/3588117"
+      },
+      {
+        "name": "中和殿",
+        "kind": "historic:palace",
+        "id": "relation/8854349"
+      },
+      {
+        "name": "万春亭",
+        "kind": "amenity:shelter",
+        "id": "way/26390235"
+      },
+      {
+        "name": "东华门",
+        "kind": "historic:city_gate",
+        "id": "way/40343947"
+      },
+      {
+        "name": "皇极殿",
+        "kind": "historic:temple",
+        "id": "way/40592355"
+      },
+      {
+        "name": "宁寿宫",
+        "kind": "historic:palace",
+        "id": "way/40592356"
+      },
+      {
+        "name": "宁寿门",
+        "kind": "historic:city_gate",
+        "id": "way/40592357"
+      },
+      {
+        "name": "南群房",
+        "kind": "historic:yes",
+        "id": "way/40605606"
+      },
+      {
+        "name": "斋宫",
+        "kind": "historic:palace",
+        "id": "way/40605850"
+      },
+      {
+        "name": "诚肃殿",
+        "kind": "historic:temple",
+        "id": "way/40605851"
+      },
+      {
+        "name": "惇本殿",
+        "kind": "historic:yes",
+        "id": "way/40605852"
+      },
+      {
+        "name": "阅是楼",
+        "kind": "historic:yes",
+        "id": "way/40628834"
+      },
+      {
+        "name": "寻沿书屋",
+        "kind": "historic:yes",
+        "id": "way/40628836"
+      },
+      {
+        "name": "庆寿堂",
+        "kind": "historic:yes",
+        "id": "way/40628841"
+      },
+      {
+        "name": "景福宫",
+        "kind": "historic:palace",
+        "id": "way/40628843"
+      },
+      {
+        "name": "畅音阁",
+        "kind": "historic:yes",
+        "id": "way/40628847"
+      },
+      {
+        "name": "养性门",
+        "kind": "historic:city_gate",
+        "id": "way/40629260"
+      },
+      {
+        "name": "符望阁",
+        "kind": "historic:yes",
+        "id": "way/40629261"
+      },
+      {
+        "name": "玉粹轩",
+        "kind": "historic:yes",
+        "id": "way/40629263"
+      },
+      {
+        "name": "云光楼",
+        "kind": "historic:yes",
+        "id": "way/40629264"
+      }
+    ],
+    "roads": [
+      {
+        "name": "way/41662973",
+        "highway": "pedestrian",
+        "id": "way/41662973"
+      },
+      {
+        "name": "way/41662975",
+        "highway": "pedestrian",
+        "id": "way/41662975"
+      },
+      {
+        "name": "way/42310572",
+        "highway": "pedestrian",
+        "id": "way/42310572"
+      },
+      {
+        "name": "way/42310573",
+        "highway": "pedestrian",
+        "id": "way/42310573"
+      },
+      {
+        "name": "way/42686779",
+        "highway": "pedestrian",
+        "id": "way/42686779"
+      },
+      {
+        "name": "way/42686780",
+        "highway": "pedestrian",
+        "id": "way/42686780"
+      },
+      {
+        "name": "way/59167993",
+        "highway": "pedestrian",
+        "id": "way/59167993"
+      },
+      {
+        "name": "way/89570349",
+        "highway": "pedestrian",
+        "id": "way/89570349"
+      },
+      {
+        "name": "way/190017487",
+        "highway": "pedestrian",
+        "id": "way/190017487"
+      },
+      {
+        "name": "way/584628743",
+        "highway": "pedestrian",
+        "id": "way/584628743"
+      },
+      {
+        "name": "way/638156082",
+        "highway": "pedestrian",
+        "id": "way/638156082"
+      },
+      {
+        "name": "way/638218755",
+        "highway": "pedestrian",
+        "id": "way/638218755"
+      },
+      {
+        "name": "way/638218756",
+        "highway": "pedestrian",
+        "id": "way/638218756"
+      },
+      {
+        "name": "way/638218814",
+        "highway": "pedestrian",
+        "id": "way/638218814"
+      },
+      {
+        "name": "way/638218815",
+        "highway": "pedestrian",
+        "id": "way/638218815"
+      },
+      {
+        "name": "way/638238245",
+        "highway": "pedestrian",
+        "id": "way/638238245"
+      },
+      {
+        "name": "way/638238247",
+        "highway": "pedestrian",
+        "id": "way/638238247"
+      },
+      {
+        "name": "way/638238248",
+        "highway": "pedestrian",
+        "id": "way/638238248"
+      },
+      {
+        "name": "way/638238249",
+        "highway": "pedestrian",
+        "id": "way/638238249"
+      },
+      {
+        "name": "way/638238252",
+        "highway": "pedestrian",
+        "id": "way/638238252"
+      }
+    ]
+  }
+}

@@ -4,6 +4,10 @@ import { AmapSync } from '../lib/amap-sync'
 // 加载环境变量
 dotenv.config({ path: '.env.local' })
 
+function getAmapServiceKey(): string {
+  return (process.env.AMAP_SERVICE_KEY || process.env.AMAP_API_KEY || '').trim()
+}
+
 // ─── 主函数 ───────────────────────────────────────────────────────────────────
 async function main() {
   console.log('=== 个性化旅游系统 — 高德 POI 数据导入 ===\n')
@@ -12,11 +16,11 @@ async function main() {
   const requiredEnvVars = [
     'NEXT_PUBLIC_SUPABASE_URL',
     'SUPABASE_SERVICE_ROLE_KEY',
-    'AMAP_API_KEY',
+    'AMAP_SERVICE_KEY',
   ]
 
   for (const envVar of requiredEnvVars) {
-    if (!process.env[envVar]) {
+    if (!process.env[envVar] && !(envVar === 'AMAP_SERVICE_KEY' && getAmapServiceKey())) {
       throw new Error(`Missing environment variable: ${envVar}`)
     }
   }
@@ -28,7 +32,7 @@ async function main() {
     const sync = new AmapSync(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      process.env.AMAP_API_KEY!,
+      getAmapServiceKey(),
       {
         maxRetries: parseInt(process.env.AMAP_MAX_RETRIES || '3', 10),
         retryDelayMs: parseInt(process.env.AMAP_RETRY_DELAY_MS || '1000', 10),
