@@ -6,12 +6,12 @@ export async function GET(request: NextRequest) {
   const diaryId = new URL(request.url).searchParams.get('diaryId')
   if (!diaryId) return NextResponse.json({ error: 'Missing diaryId' }, { status: 400 })
 
-  const supabase = createAdminClient()
-  const { data: comments } = await supabase.from('diary_comments')
+  const supabase = createAdminClient() as any
+  const { data: comments } = await (supabase as any).from('diary_comments')
     .select('id, content, created_at, user_id, parent_id')
-    .eq('diary_id', diaryId).order('created_at', { ascending: true }).limit(100)
+    .eq('diary_id', diaryId).order('created_at', { ascending: true }).limit(100) as { data: any[] | null }
 
-  const userIds = [...new Set((comments ?? []).map(c => c.user_id))]
+  const userIds = [...new Set((comments ?? []).map((c: any) => c.user_id))]
   const nameMap = new Map<string, string>()
   if (userIds.length > 0) {
     const { data: profiles } = await supabase.from('profiles').select('user_id, display_name').in('user_id', userIds)
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
   if (authErr || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   // Use admin client for DB insert (bypasses RLS)
-  const supabase = createAdminClient()
+  const supabase = createAdminClient() as any
   const { data, error } = await supabase.from('diary_comments').insert({
     diary_id, user_id: user.id, content, parent_id: parent_id || null,
   }).select('id, content, created_at, user_id, parent_id').single()
@@ -55,7 +55,7 @@ export async function DELETE(request: NextRequest) {
   const { data: { user }, error: authErr } = await authClient.auth.getUser(token)
   if (authErr || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const supabase = createAdminClient()
+  const supabase = createAdminClient() as any
   const { data: existing } = await supabase.from('diary_comments').select('user_id').eq('id', id).single()
   if (!existing || existing.user_id !== user.id) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })

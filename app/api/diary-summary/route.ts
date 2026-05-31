@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   if (!diary_id || !content) return NextResponse.json({ error: 'Missing data' }, { status: 400 })
 
   // Check existing summary
-  const supabase = createAdminClient()
+  const supabase = createAdminClient() as any
   if (!force) {
     const { data: existing } = await supabase.from('diaries').select('ai_summary').eq('id', diary_id).single()
     if (existing?.ai_summary) return NextResponse.json({ summary: existing.ai_summary, cached: true })
