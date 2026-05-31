@@ -314,6 +314,8 @@ export interface Database {
           compression_algo: string | null
           huffman_layout: Json | null
           huffman_code_map: Json | null
+          likes_count: number | null
+          ai_summary: string | null
           view_count: number
           score: number | null
           hot_score: number
@@ -333,6 +335,8 @@ export interface Database {
           compression_algo?: string | null
           huffman_layout?: Json | null
           huffman_code_map?: Json | null
+          likes_count?: number | null
+          ai_summary?: string | null
           view_count?: number
           score?: number | null
           hot_score?: number
@@ -352,6 +356,8 @@ export interface Database {
           compression_algo?: string | null
           huffman_layout?: Json | null
           huffman_code_map?: Json | null
+          likes_count?: number | null
+          ai_summary?: string | null
           view_count?: number
           score?: number | null
           hot_score?: number
@@ -597,6 +603,19 @@ export interface Database {
       }
     }
     Views: {}
+      diary_comments: {
+        Row: { id: string; diary_id: string; user_id: string; parent_id: string | null; content: string; created_at: string }
+        Insert: { id?: string; diary_id: string; user_id: string; parent_id?: string | null; content: string; created_at?: string }
+        Update: { id?: string; diary_id?: string; user_id?: string; parent_id?: string | null; content?: string; created_at?: string }
+        Relationships: []
+      }
+      generated_itineraries: {
+        Row: { id: string; user_id: string; destination: string; days: number; budget: string | null; travelers: string | null; content: any; created_at: string }
+        Insert: { id?: string; user_id: string; destination: string; days: number; budget?: string | null; travelers?: string | null; content: any; created_at?: string }
+        Update: { id?: string; user_id?: string; destination?: string; days?: number; budget?: string | null; travelers?: string | null; content?: any; created_at?: string }
+        Relationships: []
+      }
+    }
     Functions: {}
     Enums: {}
     CompositeTypes: {}
