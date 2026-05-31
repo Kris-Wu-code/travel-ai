@@ -601,8 +601,6 @@ export interface Database {
         }
         Relationships: []
       }
-    }
-    Views: {}
       diary_comments: {
         Row: { id: string; diary_id: string; user_id: string; parent_id: string | null; content: string; created_at: string }
         Insert: { id?: string; diary_id: string; user_id: string; parent_id?: string | null; content: string; created_at?: string }
